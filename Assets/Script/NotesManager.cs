@@ -32,15 +32,33 @@ public class NotesManager : MonoBehaviour
     public List<float> NotesTime = new List<float>(); //ノーツが判定線と重なる時間
     public List<GameObject> NotesObj = new List<GameObject>(); //ノーツのオブジェクト
 
-    [SerializeField] private float NotesSpeed;
+    private float NotesSpeed;
     [SerializeField] GameObject[] noteObj = new GameObject[2];
+    [SerializeField] RectTransform[] lane = new RectTransform[2];
 
-    void OnEnable()
+    Vector2 rightJudgePos;
+    Vector2 leftJudgePos;
+
+    void Start()
     {
-        noteNum = 0;
-        songName = "yatai";
-        Load(songName);
+        if (GameManager.instance != null)
+        {
+            NotesSpeed = GameManager.instance.GetNoteSpeed;
+            noteNum = 0;
+            songName = "yatai";
+
+            Vector2 localRightPos = lane[0].anchoredPosition;
+            Vector2 localLeftPos = lane[1].anchoredPosition;
+            Vector2 worldRightPos = lane[0].transform.TransformPoint(localRightPos);
+            Vector2 worldLeftPos = lane[1].transform.TransformPoint(localLeftPos);
+
+            rightJudgePos = worldRightPos * 0.5f;
+            leftJudgePos = worldLeftPos * 0.5f;
+
+            Load(songName);
+        }
     }
+
 
     private void Load(string SongName)
     {
@@ -59,9 +77,16 @@ public class NotesManager : MonoBehaviour
             NoteType.Add(inputJson.notes[i].type);
 
             float x = NotesTime[i] * NotesSpeed;
-            NotesObj.Add(Instantiate(noteObj[inputJson.notes[i].block], new Vector2(x, -inputJson.notes[i].block * 2f + 1f), Quaternion.identity));
-
+            if (inputJson.notes[i].block == 0)
+            {
+                NotesObj.Add(Instantiate(noteObj[inputJson.notes[i].block], new Vector2(x + rightJudgePos.x, rightJudgePos.y), Quaternion.identity));
+            }
+            else
+            {
+                NotesObj.Add(Instantiate(noteObj[inputJson.notes[i].block], new Vector2(x + leftJudgePos.x, leftJudgePos.y), Quaternion.identity));
+            }
         }
+        Debug.Log("生成完了");
     }
 
 

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance = null; //Noteに書く
-    [SerializeField] float noteSpeed;
+    public static GameManager instance = null;
+    public float noteSpeed;
     bool Start;
     float startTime;
 
@@ -22,6 +22,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public float GetNoteSpeed
+    {
+        get { return noteSpeed; }
+    }
+
     public bool GetSetStart
     {
         get { return Start; }
@@ -33,9 +38,4 @@ public class GameManager : MonoBehaviour
         get { return startTime; }
         set { startTime = value; }
     }
-
-
-
-
-
 }

@@ -23,7 +23,9 @@ public class MusicManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && !isPlay)
         {
             GameManager.instance.GetSetStart = true;
+            Debug.Log("スタート");
             GameManager.instance.GetSetStartTime = Time.time;
+            Debug.Log("開始時間" + GameManager.instance.GetSetStartTime);
             isPlay = true;
             audio.PlayOneShot(Music);
         }

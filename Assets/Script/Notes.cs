@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class Notes : MonoBehaviour
 {
-    int NoteSpeed = 5;
+    float NoteSpeed;
     bool start;
+
+    void Start()
+    {
+        NoteSpeed = GameManager.instance.GetNoteSpeed;
+        start = false;
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))

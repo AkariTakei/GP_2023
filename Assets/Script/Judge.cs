@@ -36,7 +36,7 @@ public class Judge : MonoBehaviour
                 deleteData();
                 Debug.Log("Miss");
                 notesManager.NotesObj.RemoveAt(0);
-                Debug.Log(GetABS((Time.time - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0]));
+                //Debug.Log(GetABS((Time.time - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0]));
             }
         }
     }
