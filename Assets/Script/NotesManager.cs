@@ -34,10 +34,11 @@ public class NotesManager : MonoBehaviour
 
     private float NotesSpeed;
     [SerializeField] GameObject[] noteObj = new GameObject[2];
-    [SerializeField] RectTransform[] lane = new RectTransform[2];
 
-    Vector2 rightJudgePos;
-    Vector2 leftJudgePos;
+    [SerializeField] GameObject rightJudge;
+    [SerializeField] GameObject leftJudge;
+    Vector2 localRightPos;
+    Vector2 localLeftPos;
 
     void Start()
     {
@@ -46,15 +47,8 @@ public class NotesManager : MonoBehaviour
             NotesSpeed = GameManager.instance.GetNoteSpeed;
             noteNum = 0;
             songName = "yatai";
-
-            Vector2 localRightPos = lane[0].anchoredPosition;
-            Vector2 localLeftPos = lane[1].anchoredPosition;
-            Vector2 worldRightPos = lane[0].transform.TransformPoint(localRightPos);
-            Vector2 worldLeftPos = lane[1].transform.TransformPoint(localLeftPos);
-
-            rightJudgePos = worldRightPos * 0.5f;
-            leftJudgePos = worldLeftPos * 0.5f;
-
+            localRightPos = rightJudge.transform.position;
+            localLeftPos = leftJudge.transform.position;
             Load(songName);
         }
     }
@@ -75,15 +69,18 @@ public class NotesManager : MonoBehaviour
             NotesTime.Add(time);
             LaneNum.Add(inputJson.notes[i].block);
             NoteType.Add(inputJson.notes[i].type);
-
             float x = NotesTime[i] * NotesSpeed;
             if (inputJson.notes[i].block == 0)
             {
-                NotesObj.Add(Instantiate(noteObj[inputJson.notes[i].block], new Vector2(x + rightJudgePos.x, rightJudgePos.y), Quaternion.identity));
+                NotesObj.Add(Instantiate(noteObj[inputJson.notes[i].block], new Vector2(x + localRightPos.x, localRightPos.y), Quaternion.identity));
+                NotesObj[i].transform.parent = rightJudge.transform;
+                NotesObj[i].transform.localScale = new Vector2(100, 100);
             }
             else
             {
-                NotesObj.Add(Instantiate(noteObj[inputJson.notes[i].block], new Vector2(x + leftJudgePos.x, leftJudgePos.y), Quaternion.identity));
+                NotesObj.Add(Instantiate(noteObj[inputJson.notes[i].block], new Vector2(x + localLeftPos.x, localLeftPos.y), Quaternion.identity));
+                NotesObj[i].transform.parent = leftJudge.transform;
+                NotesObj[i].transform.localScale = new Vector2(100, 100);
             }
         }
         Debug.Log("生成完了");
