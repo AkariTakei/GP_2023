@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MusicManager : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class MusicManager : MonoBehaviour
     string songName;
     bool isPlay;
 
+    Judge judge;
+
     void Start()
     {
         GameManager.instance.GetSetStart = false;
@@ -16,6 +19,7 @@ public class MusicManager : MonoBehaviour
         audio = GetComponent<AudioSource>();
         Music = (AudioClip)Resources.Load("Musics/" + songName);
         isPlay = false;
+        judge = GameObject.Find("Judge").GetComponent<Judge>();
     }
 
     void Update()
@@ -31,6 +35,15 @@ public class MusicManager : MonoBehaviour
         if (isPlay && !audio.isPlaying)
         {
             Debug.Log("音楽が終了しました。");
+            SceneManager.sceneLoaded += KeepScore;
+            SceneManager.LoadScene("ResultScene");
         }
+    }
+
+    void KeepScore(Scene next, LoadSceneMode mode)
+    {
+        var result = GameObject.Find("Score").GetComponent<Result>();
+        result.SetResult = judge.GetResult();
+        SceneManager.sceneLoaded -= KeepScore;
     }
 }

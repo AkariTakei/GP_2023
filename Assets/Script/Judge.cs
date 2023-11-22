@@ -9,15 +9,14 @@ public class Judge : MonoBehaviour
 
     int deletedNotesNum = 0; //削除したノーツの数
 
-    int greatNum = 0;
-    int goodNum = 0;
-    int missNum = 0;
+    int[] judge = new int[3]; //良、可、不可の数
 
     void Start()
     {
-        greatNum = 0;
-        goodNum = 0;
-        missNum = 0;
+        for (int i = 0; i < 3; i++)
+        {
+            judge[i] = 0;
+        }
     }
 
     void Update()
@@ -49,7 +48,7 @@ public class Judge : MonoBehaviour
             {
                 message(2);
                 deleteData();
-                missNum++;
+                judge[2]++;
                 deleteNotesObj();
             }
         }
@@ -60,7 +59,7 @@ public class Judge : MonoBehaviour
     {
         if (timeLag <= 0.10) //誤差が0.1秒以下
         {
-            greatNum++;
+            judge[0]++;
             message(0);
             deleteData();
             deleteNotesObj();
@@ -70,7 +69,7 @@ public class Judge : MonoBehaviour
         {
             if (timeLag <= 0.20)
             {
-                goodNum++;
+                judge[1]++;
                 message(1);
                 deleteData();
                 deleteNotesObj();
@@ -108,6 +107,11 @@ public class Judge : MonoBehaviour
     void message(int judge)
     {
         Instantiate(judgeObj[judge], new Vector2(0, -notesManager.LaneNum[0] * 2f + 2f), Quaternion.identity);
+    }
+
+    public int[] GetResult()
+    {
+        return judge;
     }
 
 }
