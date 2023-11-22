@@ -7,9 +7,22 @@ public class Judge : MonoBehaviour
     [SerializeField] private GameObject[] judgeObj = new GameObject[3]; //判定オブジェクト
     [SerializeField] NotesManager notesManager;
 
+    int deletedNotesNum = 0; //削除したノーツの数
+
+    int greatNum = 0;
+    int goodNum = 0;
+    int missNum = 0;
+
+    void Start()
+    {
+        greatNum = 0;
+        goodNum = 0;
+        missNum = 0;
+    }
+
     void Update()
     {
-        if (GameManager.instance.GetSetStart)
+        if (GameManager.instance.GetSetStart && notesManager.noteNum > deletedNotesNum)
         {
 
             if (Input.GetKeyDown(KeyCode.J))
@@ -17,6 +30,7 @@ public class Judge : MonoBehaviour
                 if (notesManager.LaneNum[0] == 0)
                 {
                     Judgement(GetABS((Time.time - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0])); //どれぐらいずれているか
+                    return;
                 }
 
             }
@@ -26,6 +40,7 @@ public class Judge : MonoBehaviour
                 if (notesManager.LaneNum[0] == 1)
                 {
                     Judgement(GetABS((Time.time - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0]));
+                    return;
 
                 }
             }
@@ -34,18 +49,18 @@ public class Judge : MonoBehaviour
             {
                 message(2);
                 deleteData();
-                Debug.Log("Miss");
-                notesManager.NotesObj.RemoveAt(0);
-                //Debug.Log(GetABS((Time.time - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0]));
+                missNum++;
+                deleteNotesObj();
             }
         }
+
     }
 
     void Judgement(float timeLag)
     {
         if (timeLag <= 0.10) //誤差が0.1秒以下
         {
-            Debug.Log("Great");
+            greatNum++;
             message(0);
             deleteData();
             deleteNotesObj();
@@ -55,7 +70,7 @@ public class Judge : MonoBehaviour
         {
             if (timeLag <= 0.20)
             {
-                Debug.Log("good");
+                goodNum++;
                 message(1);
                 deleteData();
                 deleteNotesObj();
@@ -87,6 +102,7 @@ public class Judge : MonoBehaviour
     {
         Destroy(notesManager.NotesObj[0]);
         notesManager.NotesObj.RemoveAt(0);
+        deletedNotesNum++;
     }
 
     void message(int judge)

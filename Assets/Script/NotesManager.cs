@@ -46,7 +46,7 @@ public class NotesManager : MonoBehaviour
         {
             NotesSpeed = GameManager.instance.GetNoteSpeed;
             noteNum = 0;
-            songName = "yatai";
+            songName = GameManager.instance.GetSetSongName;
             localRightPos = rightJudge.transform.position;
             localLeftPos = leftJudge.transform.position;
             Load(songName);
@@ -83,7 +83,7 @@ public class NotesManager : MonoBehaviour
                 NotesObj[i].transform.localScale = new Vector2(100, 100);
             }
         }
-        Debug.Log("生成完了");
+        Debug.Log(songName);
     }
 
 

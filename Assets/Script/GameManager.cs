@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public float noteSpeed;
     bool Start;
     float startTime;
+    [SerializeField] string songName;
 
     void Awake()
     {
@@ -37,5 +38,11 @@ public class GameManager : MonoBehaviour
     {
         get { return startTime; }
         set { startTime = value; }
+    }
+
+    public string GetSetSongName
+    {
+        get { return songName; }
+        set { songName = value; }
     }
 }

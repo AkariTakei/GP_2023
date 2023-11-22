@@ -12,7 +12,7 @@ public class MusicManager : MonoBehaviour
     void Start()
     {
         GameManager.instance.GetSetStart = false;
-        songName = "yatai";
+        songName = GameManager.instance.GetSetSongName;
         audio = GetComponent<AudioSource>();
         Music = (AudioClip)Resources.Load("Musics/" + songName);
         isPlay = false;
@@ -23,11 +23,14 @@ public class MusicManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && !isPlay)
         {
             GameManager.instance.GetSetStart = true;
-            Debug.Log("スタート");
             GameManager.instance.GetSetStartTime = Time.time;
-            Debug.Log("開始時間" + GameManager.instance.GetSetStartTime);
             isPlay = true;
             audio.PlayOneShot(Music);
+        }
+
+        if (isPlay && !audio.isPlaying)
+        {
+            Debug.Log("音楽が終了しました。");
         }
     }
 }
