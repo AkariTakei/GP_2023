@@ -22,7 +22,11 @@ public class Notes : MonoBehaviour
         if (start)
         {
             //左に移動
-            transform.position -= transform.right * Time.deltaTime * NoteSpeed;
+            // transform.position -= transform.right * Time.deltaTime * NoteSpeed;
+            //下に移動
+            transform.position -= transform.up * Time.deltaTime * NoteSpeed;
+            //上に移動
+            //transform.position += transform.up * Time.deltaTime * NoteSpeed;
         }
     }
 }

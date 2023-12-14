@@ -44,8 +44,14 @@ public class Judge : MonoBehaviour
                 }
             }
 
-            if (Time.time - GameManager.instance.GetSetStartTime > notesManager.NotesTime[0] + 0.2f)
+            if (Time.time - GameManager.instance.GetSetStartTime > notesManager.NotesTime[0] + 0.1f)
             {
+                if (notesManager.LaneNum[0] == 2)
+                {
+                    deleteData();
+                    deleteNotesObj();
+                    return;
+                }
                 message(2);
                 deleteData();
                 judge[2]++;
@@ -57,7 +63,7 @@ public class Judge : MonoBehaviour
 
     void Judgement(float timeLag)
     {
-        if (timeLag <= 0.10) //誤差が0.1秒以下
+        if (timeLag <= 0.05) //誤差が0.05秒以下
         {
             judge[0]++;
             message(0);
@@ -67,7 +73,7 @@ public class Judge : MonoBehaviour
 
         else
         {
-            if (timeLag <= 0.20)
+            if (timeLag <= 0.1)
             {
                 judge[1]++;
                 message(1);

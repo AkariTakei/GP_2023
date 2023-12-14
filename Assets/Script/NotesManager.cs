@@ -30,6 +30,7 @@ public class NotesManager : MonoBehaviour
     public List<int> LaneNum = new List<int>(); //どのブロックにノーツが来るか
     public List<int> NoteType = new List<int>(); //ノーツの種類
     public List<float> NotesTime = new List<float>(); //ノーツが判定線と重なる時間
+
     public List<GameObject> NotesObj = new List<GameObject>(); //ノーツのオブジェクト
 
     private float NotesSpeed;
@@ -37,6 +38,8 @@ public class NotesManager : MonoBehaviour
 
     [SerializeField] GameObject rightJudge;
     [SerializeField] GameObject leftJudge;
+
+    [SerializeField] GameObject[] yataiNotes;
     Vector2 localRightPos;
     Vector2 localLeftPos;
 
@@ -69,19 +72,33 @@ public class NotesManager : MonoBehaviour
             NotesTime.Add(time);
             LaneNum.Add(inputJson.notes[i].block);
             NoteType.Add(inputJson.notes[i].type);
-            float x = NotesTime[i] * NotesSpeed;
+            float y = NotesTime[i] * NotesSpeed;
             if (inputJson.notes[i].block == 0)
             {
-                NotesObj.Add(Instantiate(noteObj[inputJson.notes[i].block], new Vector2(x + localRightPos.x, localRightPos.y), Quaternion.identity));
+                //NotesObj.Add(Instantiate(yataiNotes[i], new Vector2(x + localRightPos.x, localRightPos.y), Quaternion.identity));
+                NotesObj.Add(Instantiate(yataiNotes[i], new Vector2(localRightPos.x, y + localRightPos.y), Quaternion.identity));
                 NotesObj[i].transform.parent = rightJudge.transform;
-                NotesObj[i].transform.localScale = new Vector2(100, 100);
+                NotesObj[i].transform.localScale = new Vector2(0.6f, 0.6f);
             }
+            else if (inputJson.notes[i].block == 1)
+            {
+                // NotesObj.Add(Instantiate(yataiNotes[i], new Vector2(x + localLeftPos.x, localLeftPos.y), Quaternion.identity));
+                NotesObj.Add(Instantiate(yataiNotes[i], new Vector2(localLeftPos.x, y + localLeftPos.y), Quaternion.identity));
+                NotesObj[i].transform.parent = leftJudge.transform;
+                NotesObj[i].transform.localScale = new Vector2(0.6f, 0.6f);
+            }
+
             else
             {
-                NotesObj.Add(Instantiate(noteObj[inputJson.notes[i].block], new Vector2(x + localLeftPos.x, localLeftPos.y), Quaternion.identity));
+                //NotesObj.Add(Instantiate(yataiNotes[i], new Vector2(x + localLeftPos.x, (localRightPos.y + localLeftPos.y) / 2), Quaternion.identity));
+                NotesObj.Add(Instantiate(yataiNotes[i], new Vector2((localRightPos.x + localLeftPos.x) / 2, y + localRightPos.y), Quaternion.identity));
                 NotesObj[i].transform.parent = leftJudge.transform;
-                NotesObj[i].transform.localScale = new Vector2(100, 100);
+                NotesObj[i].transform.localScale = new Vector2(0.6f, 0.6f);
+                //非表示にする
+                //NotesObj[i].SetActive(false);
             }
+
+
         }
         Debug.Log(songName);
     }

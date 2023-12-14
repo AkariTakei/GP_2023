@@ -30,6 +30,7 @@ public class MusicManager : MonoBehaviour
             GameManager.instance.GetSetStartTime = Time.time;
             isPlay = true;
             audio.PlayOneShot(Music);
+            Debug.Log("音楽が再生されました。");
         }
 
         if (isPlay && !audio.isPlaying)
