@@ -2,41 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Cysharp.Threading.Tasks;
+
 
 public class MusicManager : MonoBehaviour
 {
-    AudioSource audio;
+    AudioSource songAudio;
     AudioClip Music;
     string songName;
-    bool isPlay;
 
     Judge judge;
 
-    void Start()
+    async void Start()
     {
-        GameManager.instance.GetSetStart = false;
         songName = GameManager.instance.GetSetSongName;
-        audio = GetComponent<AudioSource>();
+        songAudio = GetComponent<AudioSource>();
         Music = (AudioClip)Resources.Load("Musics/" + songName);
-        isPlay = false;
         judge = GameObject.Find("Judge").GetComponent<Judge>();
 
-        if (!isPlay)
+        await UniTask.Delay(500);
+
+        if (!GameManager.instance.GetSetStart)
         {
             GameManager.instance.GetSetStart = true;
             GameManager.instance.GetSetStartTime = Time.time;
-            isPlay = true;
-            audio.PlayOneShot(Music);
+            Debug.Log(Time.time);
+            Debug.Log("音楽が再生を始める時間 = " + GameManager.instance.GetSetStartTime);
+            songAudio.PlayOneShot(Music);
             Debug.Log("音楽が再生されました。");
+
         }
     }
 
     void Update()
     {
-
-        if (isPlay && !audio.isPlaying)
+        if (GameManager.instance.GetSetStart == true && !songAudio.isPlaying)
         {
             Debug.Log("音楽が終了しました。");
+            GameManager.instance.GetSetStart = false;
             SceneManager.sceneLoaded += KeepScore;
             SceneManager.LoadScene("ResultScene");
         }

@@ -6,6 +6,7 @@ public class Judge : MonoBehaviour
 {
     [SerializeField] private GameObject[] judgeObj = new GameObject[3]; //判定オブジェクト
     [SerializeField] NotesManager notesManager;
+    GameUI gameUI;
 
     int deletedNotesNum = 0; //削除したノーツの数
 
@@ -23,6 +24,8 @@ public class Judge : MonoBehaviour
 
         maxCombo = 0;
         combo = 0;
+
+        gameUI = GameObject.Find("GameUI").GetComponent<GameUI>();
     }
 
     void Update()
@@ -68,6 +71,7 @@ public class Judge : MonoBehaviour
                     maxCombo = combo;
                 }
                 combo = 0;
+                gameUI.SetText(combo);
             }
         }
 
@@ -95,6 +99,7 @@ public class Judge : MonoBehaviour
         }
 
         combo++;
+        gameUI.SetText(combo);
     }
 
     float GetABS(float num) //引数の絶対値を返す

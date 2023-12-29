@@ -75,24 +75,21 @@ public class NotesManager : MonoBehaviour
             float y = NotesTime[i] * NotesSpeed;
             if (inputJson.notes[i].block == 0)
             {
-                //NotesObj.Add(Instantiate(yataiNotes[i], new Vector2(x + localRightPos.x, localRightPos.y), Quaternion.identity));
                 NotesObj.Add(Instantiate(yataiNotes[i], new Vector2(localRightPos.x, y + localRightPos.y), Quaternion.identity));
-                NotesObj[i].transform.parent = rightJudge.transform;
+                NotesObj[i].transform.SetParent(rightJudge.transform, true);
                 NotesObj[i].transform.localScale = new Vector2(0.5f, 0.5f);
             }
             else if (inputJson.notes[i].block == 1)
             {
-                // NotesObj.Add(Instantiate(yataiNotes[i], new Vector2(x + localLeftPos.x, localLeftPos.y), Quaternion.identity));
                 NotesObj.Add(Instantiate(yataiNotes[i], new Vector2(localLeftPos.x, y + localLeftPos.y), Quaternion.identity));
-                NotesObj[i].transform.parent = leftJudge.transform;
+                NotesObj[i].transform.SetParent(leftJudge.transform, true);
                 NotesObj[i].transform.localScale = new Vector2(0.5f, 0.5f);
             }
 
             else
             {
-                //NotesObj.Add(Instantiate(yataiNotes[i], new Vector2(x + localLeftPos.x, (localRightPos.y + localLeftPos.y) / 2), Quaternion.identity));
                 NotesObj.Add(Instantiate(yataiNotes[i], new Vector2((localRightPos.x + localLeftPos.x) / 2, y + localRightPos.y), Quaternion.identity));
-                NotesObj[i].transform.parent = leftJudge.transform;
+                NotesObj[i].transform.SetParent(leftJudge.transform, true);
                 NotesObj[i].transform.localScale = new Vector2(0.6f, 0.6f);
                 //非表示にする
                 //NotesObj[i].SetActive(false);

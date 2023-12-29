@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
     public float noteSpeed;
-    bool Start;
+    [SerializeField] bool Start;
     float startTime;
     [SerializeField] string songName;
     string instrument;

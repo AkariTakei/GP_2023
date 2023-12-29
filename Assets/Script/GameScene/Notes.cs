@@ -5,12 +5,11 @@ using UnityEngine;
 public class Notes : MonoBehaviour
 {
     float NoteSpeed;
-    bool start;
+    bool isPlay = false;
 
     void Start()
     {
         NoteSpeed = GameManager.instance.GetNoteSpeed;
-        start = true;
     }
     void Update()
     {
@@ -19,8 +18,13 @@ public class Notes : MonoBehaviour
         //     start = true;
 
         // }
-        if (start)
+        if (GameManager.instance.GetSetStart == true)
         {
+            if (isPlay == false)
+            {
+                isPlay = true;
+                Debug.Log("ノーツが動き始める時間 = " + Time.time);
+            }
             //左に移動
             // transform.position -= transform.right * Time.deltaTime * NoteSpeed;
             //下に移動
