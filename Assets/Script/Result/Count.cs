@@ -1,8 +1,10 @@
 using System.Collections;
 using UnityEngine;
 
+
 public class Count : MonoBehaviour
 {
+
     private int m_Mode = 0;             // 0:動作していない 1:値を増加させる(動作中)
     private float m_Value = 0.0f;       // 現在値
     private float m_Start = 0.0f;       // 開始値
@@ -10,7 +12,8 @@ public class Count : MonoBehaviour
     private decimal m_PerTime = 0.0m;   // 値が"1"(または-1)変化するのに必要な時間
     private decimal m_Time = 0.0m;      // 経過時間
 
-    bool isFinish = false;
+    GameObject resultUI;
+
     public float Value
     {
         get
@@ -19,16 +22,9 @@ public class Count : MonoBehaviour
         }
     }
 
-    public bool IsFinish
-    {
-        get
-        {
-            return isFinish;
-        }
-    }
-
     void Start()
     {
+        resultUI = GameObject.Find("ResultUI");
         ResetVariable();
     }
 
@@ -47,7 +43,7 @@ public class Count : MonoBehaviour
             {
                 // 終了
                 m_Mode = 0;
-                isFinish = true;
+                resultUI.GetComponent<IListenFinishable>().OnFinish(this.gameObject.name);
                 return;
             }
             m_Value = (float)((decimal)m_Start + m_Time / m_PerTime);   // ※１ 割る数(m_PerTime)が0だと例外発生するので注意
@@ -110,7 +106,6 @@ public class Count : MonoBehaviour
         m_Start = start;    // 開始値を設定
         m_Goal = goal;      // 最終目的値を設定
         m_Time = 0.0m;      // 経過時間をリセット
-        isFinish = false;
     }
 
     public bool IsWorking()

@@ -8,7 +8,7 @@ using UnityEngine.Events;
 using Cysharp.Threading.Tasks;
 using System;
 
-public class ResultUI : MonoBehaviour
+public class ResultUI : MonoBehaviour, IListenFinishable
 {
     [SerializeField] private GameObject greatObj;
     [SerializeField] private GameObject goodObj;
@@ -18,14 +18,15 @@ public class ResultUI : MonoBehaviour
     [SerializeField] private GameObject accuracyObj;
     [SerializeField] private GameObject comentText;
     [SerializeField] private Sprite[] levelSprite;
+    private string[] level = { "easy", "normal", "hard" };
     [SerializeField] private Sprite[] MusicTitleSprite;
+    private string[] MusicTitle = { "ninnba", "yatai", "nakanokiri", "ti-hyaitoro" };
 
     TextMeshProUGUI scoreText;
     TextMeshProUGUI greatText;
     TextMeshProUGUI goodText;
     TextMeshProUGUI badText;
     TextMeshProUGUI comboText;
-    TextMeshProUGUI accuracyText;
     Count scoreCount;
     Count greatCount;
     Count goodCount;
@@ -43,12 +44,6 @@ public class ResultUI : MonoBehaviour
     int good;
     int bad;
     float accuracy;
-
-    bool scoreAnimation = false;
-    bool greatAnimation = false;
-    bool goodAnimation = false;
-    bool badAnimation = false;
-    bool comboAnimation = false;
 
 
 
@@ -69,7 +64,6 @@ public class ResultUI : MonoBehaviour
         badCount = badObj.GetComponent<Count>();
         comboText = comboObj.GetComponent<TextMeshProUGUI>();
         comboCount = comboObj.GetComponent<Count>();
-        accuracyText = accuracyObj.GetComponent<TextMeshProUGUI>();
 
 
         ResetResult();
@@ -82,125 +76,60 @@ public class ResultUI : MonoBehaviour
 
     private void Start()
     {
-        GameObject level = GameObject.Find("level");
-        GameObject musicTitle = GameObject.Find("musicTitle");
-        if (GameManager.instance.GetSetMode == "easy")
+        GameObject levelObj = GameObject.Find("level");
+        GameObject musicTitleObj = GameObject.Find("musicTitle");
+
+        for (int i = 0; i < level.Length; i++)
         {
-            level.GetComponent<Image>().sprite = levelSprite[0];
-        }
-        else if (GameManager.instance.GetSetMode == "normal")
-        {
-            level.GetComponent<Image>().sprite = levelSprite[1];
-        }
-        else if (GameManager.instance.GetSetMode == "hard")
-        {
-            level.GetComponent<Image>().sprite = levelSprite[2];
+            if (level[i] == GameManager.instance.GetSetMode)
+            {
+                levelObj.GetComponent<Image>().sprite = levelSprite[i];
+            }
         }
 
-        level.GetComponent<Image>().SetNativeSize();
+        levelObj.GetComponent<Image>().SetNativeSize();
 
-        if (GameManager.instance.GetSetSongName == "ninnba")
+        for (int i = 0; i < MusicTitle.Length; i++)
         {
-            musicTitle.GetComponent<Image>().sprite = MusicTitleSprite[0];
-        }
-        else if (GameManager.instance.GetSetSongName == "yatai")
-        {
-            musicTitle.GetComponent<Image>().sprite = MusicTitleSprite[1];
-        }
-        else if (GameManager.instance.GetSetSongName == "nakanokiri")
-        {
-            musicTitle.GetComponent<Image>().sprite = MusicTitleSprite[2];
-        }
-        else if (GameManager.instance.GetSetSongName == "ti-hyaitoro")
-        {
-            musicTitle.GetComponent<Image>().sprite = MusicTitleSprite[3];
+            if (MusicTitle[i] == GameManager.instance.GetSetSongName)
+            {
+                musicTitleObj.GetComponent<Image>().sprite = MusicTitleSprite[i];
+            }
         }
 
-        musicTitle.GetComponent<Image>().SetNativeSize();
+        musicTitleObj.GetComponent<Image>().SetNativeSize();
 
         hiScore.SetActive(false);
+        //accuracyObjの透明度を0にする
+        Color color = accuracyObj.GetComponent<Image>().color;
+        color.a = 0;
 
-        score = 9000;
-        great = 90;
-        good = 50;
-        bad = 10;
-        combo = 100;
-        // greatCount.CountToInt(0, great, 0.8f);
-        // goodCount.CountToInt(0, good, 0.8f);
-        // badCount.CountToInt(0, bad, 0.8f);
-        // comboCount.CountToInt(0, combo, 0.8f);
-        // accuracyCount.CountToInt(0, accuracy, 1.5f);
-        //CountTrigger(scoreCount, score, 1.5f, 0.5f);
+        CountTrigger(scoreCount, score, 1f, 0.5f);
     }
 
     private void Update()
     {
-        if (scoreAnimation == false)
-        {
-            //scoreCount.CountToInt(0, 9999, 1.5f);
-            CountTrigger(scoreCount, score, 1.5f, 1);
-            scoreAnimation = true;
-        }
         CountAnimation(scoreCount, scoreText);
 
-        if (scoreCount.IsFinish == true)
-        {
-            if (greatAnimation == false)
-            {
-                CountTrigger(greatCount, great, 0.8f, 0.8f);
-                greatAnimation = true;
-            }
-            CountAnimation(greatCount, greatText);
-        }
+        CountAnimation(greatCount, greatText);
 
-        if (greatCount.IsFinish == true)
-        {
-            if (goodAnimation == false)
-            {
-                CountTrigger(goodCount, good, 0.8f, 0.3f);
-                goodAnimation = true;
-            }
-            CountAnimation(goodCount, goodText);
-        }
+        CountAnimation(goodCount, goodText);
 
-        if (goodCount.IsFinish == true)
-        {
-            if (badAnimation == false)
-            {
-                CountTrigger(badCount, bad, 0.8f, 0.3f);
-                badAnimation = true;
-            }
-            CountAnimation(badCount, badText);
-        }
+        CountAnimation(badCount, badText);
 
-        if (badCount.IsFinish == true)
-        {
-            if (comboAnimation == false)
-            {
-                CountTrigger(comboCount, combo, 0.8f, 0.3f);
-                comboAnimation = true;
-            }
-            CountAnimation(comboCount, comboText);
-        }
+        CountAnimation(comboCount, comboText);
+
 
     }
     public void SetText(int combo, int great, int good, int bad, int score, float accuracy)
     {
-        // comboText.GetComponent<TextMeshProUGUI>().text = combo.ToString();
-        // greatText.GetComponent<TextMeshProUGUI>().text = great.ToString();
-        // goodText.GetComponent<TextMeshProUGUI>().text = good.ToString();
-        // badText.GetComponent<TextMeshProUGUI>().text = bad.ToString();
-        // scoreText.GetComponent<TextMeshProUGUI>().text = score.ToString();
-        // accuracyText.GetComponent<TextMeshProUGUI>().text = accuracy.ToString() + "%";
-
         this.score = score;
         this.combo = combo;
         this.great = great;
         this.good = good;
         this.bad = bad;
         this.accuracy = accuracy;
-
-
+        GameObject.Find("accuracy").GetComponent<TextMeshProUGUI>().text = accuracy.ToString() + "%";
     }
 
     public void PointerDownButton(GameObject obj)
@@ -232,7 +161,7 @@ public class ResultUI : MonoBehaviour
         badText.GetComponent<TextMeshProUGUI>().text = "0";
         comboText.GetComponent<TextMeshProUGUI>().text = "0";
         scoreText.text = "0";
-        accuracyText.GetComponent<TextMeshProUGUI>().text = "0%";
+        GameObject.Find("accuracy").GetComponent<TextMeshProUGUI>().text = "0%";
 
         score = 0;
         combo = 0;
@@ -261,7 +190,39 @@ public class ResultUI : MonoBehaviour
 
     private async void Animation(GameObject obj)
     {
-        await obj.transform.DOScaleY(2f, 0.5f).SetEase(Ease.OutQuart).AsyncWaitForCompletion();
-        await obj.transform.DOScaleY(0.5f, 0.5f).SetEase(Ease.OutQuart).AsyncWaitForCompletion();
+        await obj.transform.DOScaleY(1.3f, 0.2f).SetEase(Ease.OutQuart).AsyncWaitForCompletion();
+        await obj.transform.DOScaleY(1f, 0.2f).SetEase(Ease.OutQuart).AsyncWaitForCompletion();
+    }
+
+    public void OnFinish(string obj)
+    {
+        if (obj == "Score")
+        {
+            Animation(scoreObj);
+            CountTrigger(greatCount, great, 0.5f, 0.3f);
+        }
+        else if (obj == "great_num")
+        {
+            Animation(greatObj);
+            CountTrigger(goodCount, good, 0.5f, 0.1f);
+
+        }
+        else if (obj == "good_num")
+        {
+            Animation(goodObj);
+            CountTrigger(badCount, bad, 0.5f, 0.1f);
+        }
+        else if (obj == "bad_num")
+        {
+            Animation(badObj);
+            CountTrigger(comboCount, combo, 0.5f, 0.1f);
+        }
+        else if (obj == "combo_num")
+        {
+            Animation(comboObj);
+
+            accuracyObj.transform.DOLocalMoveX(-456f, 0.5f).SetRelative(true).SetEase(Ease.OutQuart);
+            accuracyObj.GetComponent<Image>().DOColor(new Color(1, 1, 1, 1), 1f);
+        }
     }
 }
