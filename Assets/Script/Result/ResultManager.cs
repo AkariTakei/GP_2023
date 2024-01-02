@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 
 public class ResultManager : MonoBehaviour
@@ -16,6 +17,8 @@ public class ResultManager : MonoBehaviour
     private int great;
     private int good;
     private int bad;
+
+
 
     private void Start()
     {
@@ -63,9 +66,8 @@ public class ResultManager : MonoBehaviour
         CaluculateScore();
     }
 
-    public void SetResult(string songName, int combo, int great, int good, int bad)
+    public void SetResult(int combo, int great, int good, int bad)
     {
-        this.songName = songName;
         this.combo = combo;
         this.great = great;
         this.good = good;
@@ -85,5 +87,18 @@ public class ResultManager : MonoBehaviour
     {
         int score = great * 330 + good * 100 + bad * 0;
         return score;
+    }
+
+    public void ChangeScene(string name)
+    {
+        if (name == "reStart")
+        {
+            SceneManager.LoadScene("GameScene2");
+        }
+
+        else if (name == "next")
+        {
+            SceneManager.LoadScene("SelectMusicScene");
+        }
     }
 }

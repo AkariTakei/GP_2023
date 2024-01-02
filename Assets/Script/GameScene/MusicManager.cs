@@ -48,7 +48,7 @@ public class MusicManager : MonoBehaviour
     void KeepScore(Scene next, LoadSceneMode mode)
     {
         var resultManager = GameObject.Find("ResultManager").GetComponent<ResultManager>();
-        resultManager.SetResult(songName, judge.GetCombo, judge.GetJudge[0], judge.GetJudge[1], judge.GetJudge[2]);
+        resultManager.SetResult(judge.GetCombo, judge.GetJudge[0], judge.GetJudge[1], judge.GetJudge[2]);
         SceneManager.sceneLoaded -= KeepScore;
     }
 }
