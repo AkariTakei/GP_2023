@@ -45,12 +45,17 @@ public class ResultUI : MonoBehaviour, IListenFinishable
     int bad;
     float accuracy;
 
-
+    bool isHiScore = false;
 
     [SerializeField] UnityEvent reStartEvent;
     [SerializeField] UnityEvent nextEvent;
     Color color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 1f);
 
+
+    public void SetHiScore(bool value)
+    {
+        isHiScore = value;
+    }
 
     private void Awake()
     {
@@ -64,13 +69,11 @@ public class ResultUI : MonoBehaviour, IListenFinishable
         badCount = badObj.GetComponent<Count>();
         comboText = comboObj.GetComponent<TextMeshProUGUI>();
         comboCount = comboObj.GetComponent<Count>();
-
-
-        ResetResult();
         hiScore = GameObject.Find("hiscore");
         resultImage = GameObject.Find("resultImage");
         restartButton = GameObject.Find("reStart");
         nextButton = GameObject.Find("next");
+        ResetResult();
 
     }
 
@@ -98,11 +101,6 @@ public class ResultUI : MonoBehaviour, IListenFinishable
         }
 
         musicTitleObj.GetComponent<Image>().SetNativeSize();
-
-        hiScore.SetActive(false);
-        //accuracyObjの透明度を0にする
-        Color color = accuracyObj.GetComponent<Image>().color;
-        color.a = 0;
 
         CountTrigger(scoreCount, score, 1f, 0.5f);
     }
@@ -169,6 +167,9 @@ public class ResultUI : MonoBehaviour, IListenFinishable
         good = 0;
         bad = 0;
         accuracy = 0;
+        isHiScore = false;
+        hiScore.SetActive(false);
+        accuracyObj.GetComponent<CanvasGroup>().alpha = 0;
     }
 
     private void CountAnimation(Count count, TextMeshProUGUI text)
@@ -220,9 +221,26 @@ public class ResultUI : MonoBehaviour, IListenFinishable
         else if (obj == "combo_num")
         {
             Animation(comboObj);
+            //accuracyObjのRectTransformのXを-343にする
+            accuracyObj.GetComponent<RectTransform>().DOAnchorPosX(-404, 1f).SetRelative(true).SetEase(Ease.OutQuart);
 
-            accuracyObj.transform.DOLocalMoveX(-456f, 0.5f).SetRelative(true).SetEase(Ease.OutQuart);
-            accuracyObj.GetComponent<Image>().DOColor(new Color(1, 1, 1, 1), 1f);
+            //accuracyObj.transform.DOLocalMoveX(-343f, 0.5f).SetRelative(true).SetEase(Ease.OutQuart);
+            accuracyObj.GetComponent<CanvasGroup>().DOFade(1, 1.5f).SetEase(Ease.OutQuart);
+
+            if (isHiScore == true)
+            {
+                HiScoreAnimation();
+
+            }
         }
+    }
+
+    public void HiScoreAnimation()
+    {
+        hiScore.SetActive(true);
+        hiScore.GetComponent<RectTransform>().DOLocalMoveY(20f, 0.4f)
+        .SetRelative(true)
+        .SetEase(Ease.OutQuad)
+        .SetLoops(-1, LoopType.Yoyo);
     }
 }

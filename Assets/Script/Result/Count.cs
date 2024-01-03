@@ -88,6 +88,7 @@ public class Count : MonoBehaviour
         else
         {
             m_Mode = 0;
+            resultUI.GetComponent<IListenFinishable>().OnFinish(this.gameObject.name);
             return;
         }
         m_PerTime = (decimal)(goal - start) / (decimal)time;// 1.0秒毎の変化量

@@ -151,4 +151,23 @@ public class Judge : MonoBehaviour
         }
     }
 
+    public void RightTouch()
+    {
+        if (notesManager.LaneNum[0] == 0)
+        {
+            Judgement(GetABS((Time.time - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0])); //どれぐらいずれているか
+            return;
+        }
+    }
+
+    public void LeftTouch()
+    {
+        if (notesManager.LaneNum[0] == 1)
+        {
+            Judgement(GetABS((Time.time - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0]));
+            return;
+
+        }
+    }
+
 }

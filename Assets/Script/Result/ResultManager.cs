@@ -50,6 +50,7 @@ public class ResultManager : MonoBehaviour
                                 if (data.songData[i].instrumentData[j].levelData[k].score < CaluculateScore())
                                 {
                                     data.songData[i].instrumentData[j].levelData[k].score = CaluculateScore();
+                                    resultUI.SetHiScore(true);
                                 }
                                 if (bad == 0)
                                 {
@@ -72,6 +73,7 @@ public class ResultManager : MonoBehaviour
         this.great = great;
         this.good = good;
         this.bad = bad;
+        Debug.Log("コンボ数 = " + combo + "Great数 = " + great + "Good数 = " + good + "Bad数 = " + bad);
     }
 
     private float CaluculateAccuracy()

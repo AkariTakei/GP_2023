@@ -13,11 +13,6 @@ public class Notes : MonoBehaviour
     }
     void Update()
     {
-        // if (GameManager.instance.GetSetStart == true)
-        // {
-        //     start = true;
-
-        // }
         if (GameManager.instance.GetSetStart == true)
         {
             if (isPlay == false)
@@ -25,12 +20,7 @@ public class Notes : MonoBehaviour
                 isPlay = true;
                 Debug.Log("ノーツが動き始める時間 = " + Time.time);
             }
-            //左に移動
-            // transform.position -= transform.right * Time.deltaTime * NoteSpeed;
-            //下に移動
             transform.position -= transform.up * Time.deltaTime * NoteSpeed;
-            //上に移動
-            //transform.position += transform.up * Time.deltaTime * NoteSpeed;
         }
     }
 }
