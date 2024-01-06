@@ -32,11 +32,13 @@ public class MusicManager : MonoBehaviour
             Debug.Log("音楽が再生されました。");
 
         }
+
+
     }
 
     void Update()
     {
-        if (GameManager.instance.GetSetStart == true && !songAudio.isPlaying)
+        if (GameManager.instance.GetSetStart && !songAudio.isPlaying && !GameManager.instance.GetSetPause)
         {
             Debug.Log("音楽が終了しました。");
             GameManager.instance.GetSetStart = false;
@@ -51,4 +53,16 @@ public class MusicManager : MonoBehaviour
         resultManager.SetResult(judge.GetCombo, judge.GetJudge[0], judge.GetJudge[1], judge.GetJudge[2]);
         SceneManager.sceneLoaded -= KeepScore;
     }
+
+    public void Pause()
+    {
+        songAudio.Pause();
+    }
+
+    public void UnPause()
+    {
+        songAudio.UnPause();
+    }
+
+
 }

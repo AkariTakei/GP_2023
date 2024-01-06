@@ -170,6 +170,8 @@ public class ResultUI : MonoBehaviour, IListenFinishable
         isHiScore = false;
         hiScore.SetActive(false);
         accuracyObj.GetComponent<CanvasGroup>().alpha = 0;
+        restartButton.SetActive(false);
+        nextButton.SetActive(false);
     }
 
     private void CountAnimation(Count count, TextMeshProUGUI text)
@@ -221,11 +223,11 @@ public class ResultUI : MonoBehaviour, IListenFinishable
         else if (obj == "combo_num")
         {
             Animation(comboObj);
-            //accuracyObjのRectTransformのXを-343にする
             accuracyObj.GetComponent<RectTransform>().DOAnchorPosX(-404, 1f).SetRelative(true).SetEase(Ease.OutQuart);
-
-            //accuracyObj.transform.DOLocalMoveX(-343f, 0.5f).SetRelative(true).SetEase(Ease.OutQuart);
             accuracyObj.GetComponent<CanvasGroup>().DOFade(1, 1.5f).SetEase(Ease.OutQuart);
+
+            restartButton.SetActive(true);
+            nextButton.SetActive(true);
 
             if (isHiScore == true)
             {

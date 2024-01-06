@@ -184,7 +184,7 @@ public class MagnetMenu : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         selectMusicManager.GetSetMusicTitle = selectItem.transform.GetChild(0).name;
         //selectMusicUI.ChangeText(selectItem.transform.GetChild(0).gameObject);
 
-        VibrationMng.ShortVibration();
+        VibrationMng.ShortVibration(); //スマホのバイブレーションを鳴らす(PCの場合はコメントアウト)
         return nearestRect;
     }
 

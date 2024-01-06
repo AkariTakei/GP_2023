@@ -30,14 +30,14 @@ public class Judge : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.instance.GetSetStart && notesManager.noteNum > deletedNotesNum)
+        if (GameManager.instance.GetSetStart && notesManager.noteNum > deletedNotesNum && GameManager.instance.GetSetPause == false)
         {
 
             if (Input.GetKeyDown(KeyCode.J))
             {
                 if (notesManager.LaneNum[0] == 0)
                 {
-                    Judgement(GetABS((Time.time - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0])); //どれぐらいずれているか
+                    Judgement(GetABS(((Time.time - GameManager.instance.GetPauseTime) - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0])); //どれぐらいずれているか
                     return;
                 }
 
@@ -47,13 +47,13 @@ public class Judge : MonoBehaviour
             {
                 if (notesManager.LaneNum[0] == 1)
                 {
-                    Judgement(GetABS((Time.time - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0]));
+                    Judgement(GetABS(((Time.time - GameManager.instance.GetPauseTime) - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0]));
                     return;
 
                 }
             }
 
-            if (Time.time - GameManager.instance.GetSetStartTime > notesManager.NotesTime[0] + 0.1f)
+            if ((Time.time - GameManager.instance.GetPauseTime) - GameManager.instance.GetSetStartTime > notesManager.NotesTime[0] + 0.1f)
             {
                 if (notesManager.LaneNum[0] == 2)
                 {
@@ -153,21 +153,25 @@ public class Judge : MonoBehaviour
 
     public void RightTouch()
     {
+        VibrationMng.ShortVibration(); //スマホのバイブレーションを鳴らす(PCの場合はコメントアウト)
         if (notesManager.LaneNum[0] == 0)
         {
             Judgement(GetABS((Time.time - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0])); //どれぐらいずれているか
             return;
         }
+
     }
 
     public void LeftTouch()
     {
+        VibrationMng.ShortVibration();    //スマホのバイブレーションを鳴らす(PCの場合はコメントアウト)
         if (notesManager.LaneNum[0] == 1)
         {
             Judgement(GetABS((Time.time - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0]));
             return;
 
         }
+
     }
 
 }

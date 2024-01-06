@@ -13,7 +13,7 @@ public class Notes : MonoBehaviour
     }
     void Update()
     {
-        if (GameManager.instance.GetSetStart == true)
+        if (GameManager.instance.GetSetStart == true && GameManager.instance.GetSetPause == false)
         {
             if (isPlay == false)
             {

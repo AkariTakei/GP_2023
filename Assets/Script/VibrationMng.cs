@@ -1,3 +1,5 @@
+//PCの場合はコメントアウト
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

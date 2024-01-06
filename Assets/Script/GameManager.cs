@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour
     string instrument;
     string mode;
 
+    bool isPause = false;
+
+    float pauseTime;
+
     void Awake()
     {
         Application.targetFrameRate = 60;
@@ -24,6 +28,21 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+    }
+
+    void Update()
+    {
+        if (isPause == true)
+        {
+            pauseTime += Time.deltaTime;
+        }
+
+        if (Start == false)
+        {
+            isPause = false;
+            pauseTime = 0;
+        }
+
     }
 
 
@@ -60,5 +79,16 @@ public class GameManager : MonoBehaviour
     {
         get { return mode; }
         set { mode = value; }
+    }
+
+    public bool GetSetPause
+    {
+        get { return isPause; }
+        set { isPause = value; }
+    }
+
+    public float GetPauseTime
+    {
+        get { return pauseTime; }
     }
 }
