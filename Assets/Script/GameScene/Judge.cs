@@ -8,12 +8,17 @@ public class Judge : MonoBehaviour
     [SerializeField] NotesManager notesManager;
     GameUI gameUI;
 
+    Animator animator;
+
     int deletedNotesNum = 0; //削除したノーツの数
 
     int[] judge = new int[3]; //良、可、不可の数
 
     private int maxCombo;
     private int combo;
+
+    Vector2 localRightPos;
+    Vector2 localLeftPos;
 
     void Start()
     {
@@ -26,6 +31,10 @@ public class Judge : MonoBehaviour
         combo = 0;
 
         gameUI = GameObject.Find("GameUI").GetComponent<GameUI>();
+        animator = GameObject.Find("taiko").GetComponent<Animator>();
+
+        localRightPos = GameObject.Find("right").transform.position;
+        localLeftPos = GameObject.Find("left").transform.position;
     }
 
     void Update()
@@ -35,9 +44,10 @@ public class Judge : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.J))
             {
+                animator.SetTrigger("Down");
                 if (notesManager.LaneNum[0] == 0)
                 {
-                    Judgement(GetABS(((Time.time - GameManager.instance.GetPauseTime) - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0])); //どれぐらいずれているか
+                    Judgement(GetABS(((Time.time - GameManager.instance.GetPauseTime) - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0]), notesManager.LaneNum[0]); //どれぐらいずれているか
                     return;
                 }
 
@@ -45,23 +55,26 @@ public class Judge : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.F))
             {
+                animator.SetTrigger("Down");
                 if (notesManager.LaneNum[0] == 1)
                 {
-                    Judgement(GetABS(((Time.time - GameManager.instance.GetPauseTime) - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0]));
+                    Judgement(GetABS(((Time.time - GameManager.instance.GetPauseTime) - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0]), notesManager.LaneNum[0]);
                     return;
 
                 }
             }
 
+            //判定に関係のないノーツは判定枠に入ったら削除
+            if ((Time.time - GameManager.instance.GetPauseTime) - GameManager.instance.GetSetStartTime > notesManager.NotesTime[0] && notesManager.LaneNum[0] == 2)
+            {
+                deleteData();
+                deleteNotesObj();
+                return;
+            }
+
             if ((Time.time - GameManager.instance.GetPauseTime) - GameManager.instance.GetSetStartTime > notesManager.NotesTime[0] + 0.1f)
             {
-                if (notesManager.LaneNum[0] == 2)
-                {
-                    deleteData();
-                    deleteNotesObj();
-                    return;
-                }
-                message(2);
+                message(2, notesManager.LaneNum[0]);
                 deleteData();
                 judge[2]++;
                 deleteNotesObj();
@@ -77,12 +90,12 @@ public class Judge : MonoBehaviour
 
     }
 
-    void Judgement(float timeLag)
+    void Judgement(float timeLag, int num)
     {
         if (timeLag <= 0.05) //誤差が0.05秒以下
         {
             judge[0]++;
-            message(0);
+            message(0, num);
             deleteData();
             deleteNotesObj();
         }
@@ -92,7 +105,7 @@ public class Judge : MonoBehaviour
             if (timeLag <= 0.1)
             {
                 judge[1]++;
-                message(1);
+                message(1, num);
                 deleteData();
                 deleteNotesObj();
             }
@@ -129,9 +142,18 @@ public class Judge : MonoBehaviour
         deletedNotesNum++;
     }
 
-    void message(int judge)
+    void message(int judge, int num)
     {
-        Instantiate(judgeObj[judge], new Vector2(0, -notesManager.LaneNum[0] * 2f + 2f), Quaternion.identity);
+        //Instantiate(judgeObj[judge], new Vector2(0, -notesManager.LaneNum[0] * 2f + 2f), Quaternion.identity);
+        if (num == 0)
+        {
+            Instantiate(judgeObj[judge], new Vector2(localRightPos.x + 1, localRightPos.y), Quaternion.identity);
+        }
+
+        else if (num == 1)
+        {
+            Instantiate(judgeObj[judge], new Vector2(localLeftPos.x - 1, localLeftPos.y), Quaternion.identity);
+        }
     }
 
     public int[] GetJudge
@@ -154,9 +176,10 @@ public class Judge : MonoBehaviour
     public void RightTouch()
     {
         VibrationMng.ShortVibration(); //スマホのバイブレーションを鳴らす(PCの場合はコメントアウト)
+        animator.SetTrigger("Down");
         if (notesManager.LaneNum[0] == 0)
         {
-            Judgement(GetABS((Time.time - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0])); //どれぐらいずれているか
+            Judgement(GetABS((Time.time - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0]), notesManager.LaneNum[0]); //どれぐらいずれているか
             return;
         }
 
@@ -165,9 +188,10 @@ public class Judge : MonoBehaviour
     public void LeftTouch()
     {
         VibrationMng.ShortVibration();    //スマホのバイブレーションを鳴らす(PCの場合はコメントアウト)
+        animator.SetTrigger("Down");
         if (notesManager.LaneNum[0] == 1)
         {
-            Judgement(GetABS((Time.time - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0]));
+            Judgement(GetABS((Time.time - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0]), notesManager.LaneNum[0]);
             return;
 
         }

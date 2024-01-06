@@ -28,6 +28,8 @@ public class NotesManager : MonoBehaviour
     private string songName; //曲名
 
     public List<int> LaneNum = new List<int>(); //どのブロックにノーツが来るか
+
+    private int preLaneNum; //1つ前のブロックの番号
     public List<int> NoteType = new List<int>(); //ノーツの種類
     public List<float> NotesTime = new List<float>(); //ノーツが判定線と重なる時間
 
@@ -82,13 +84,18 @@ public class NotesManager : MonoBehaviour
 
         for (int i = 0; i < inputJson.notes.Length; i++)
         {
+            Debug.Log(inputJson.offset);
             float kankaku = 60 / (inputJson.BPM * (float)inputJson.notes[i].LPB); //1拍の間隔
             float beatSec = kankaku * (float)inputJson.notes[i].LPB; //1拍の秒数
-            float time = (beatSec * inputJson.notes[i].num / (float)inputJson.notes[i].LPB) + inputJson.offset / 44100; //ノーツが判定線と重なる時間
+            float time = (beatSec * inputJson.notes[i].num / (float)inputJson.notes[i].LPB) + inputJson.offset * 0.00001f; //ノーツが判定線と重なる時間
             NotesTime.Add(time);
             LaneNum.Add(inputJson.notes[i].block);
             NoteType.Add(inputJson.notes[i].type);
             float y = NotesTime[i] * NotesSpeed;
+            if (i + 1 < inputJson.notes.Length && inputJson.notes[i + 1].block == 2)
+            {
+                preLaneNum = inputJson.notes[i].block;
+            }
             if (inputJson.notes[i].block == 0)
             {
                 NotesObj.Add(Instantiate(songNotes[i], new Vector2(localRightPos.x, y + localRightPos.y), Quaternion.identity));
@@ -104,7 +111,15 @@ public class NotesManager : MonoBehaviour
 
             else
             {
-                NotesObj.Add(Instantiate(songNotes[i], new Vector2((localRightPos.x + localLeftPos.x) / 2, y + localRightPos.y), Quaternion.identity));
+                if (preLaneNum == 0)
+                {
+                    NotesObj.Add(Instantiate(songNotes[i], new Vector2(localRightPos.x, y + localRightPos.y), Quaternion.identity));
+                }
+                else
+                {
+                    NotesObj.Add(Instantiate(songNotes[i], new Vector2(localLeftPos.x, y + localLeftPos.y), Quaternion.identity));
+                }
+                // NotesObj.Add(Instantiate(songNotes[i], new Vector2((localRightPos.x + localLeftPos.x) / 2, y + localRightPos.y), Quaternion.identity));
                 NotesObj[i].transform.SetParent(leftJudge.transform, true);
                 NotesObj[i].transform.localScale = new Vector2(0.6f, 0.6f);
                 //非表示にする

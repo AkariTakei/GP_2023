@@ -17,6 +17,9 @@ public class SelectMusicUI : MonoBehaviour
     [SerializeField] private GameObject PlayNumText;
     [SerializeField] private GameObject hiScoreText;
 
+    bool[] instrumentRock = new bool[3]; //楽器のロック状態 実装状況と各楽器のフルコンボ状況によって変化
+    bool[] levelRock = new bool[3]; //難易度のロック状態　実装状況と各楽器のフルコンボ状況によって変化
+
     SelectMusicManager selectMusicManager;
     Color color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 1f);
 
@@ -36,17 +39,24 @@ public class SelectMusicUI : MonoBehaviour
         selectMusicManager.GetSetInstrument = selectInstrument.name;
         selectMusicManager.GetSetMode = selectMode.name;
         startButton.GetComponent<Image>().material.SetColor("_Color", color);
+
+        instrumentRock[0] = true;
+        instrumentRock[1] = false;
+        instrumentRock[2] = false;
+        levelRock[0] = true;
+        levelRock[1] = false;
+        levelRock[2] = false;
     }
     public void OnClick(GameObject obj)
     {
         //ここでデーターを元に選択できる楽器・難易度を調整する
 
-        if (obj.name == "tuke" || obj.name == "ookan" || obj.name == "kane")
+        if (obj.name == "tuke" && instrumentRock[0] || obj.name == "ookan" && instrumentRock[1] || obj.name == "kane" && instrumentRock[2])
         {
             Change(obj, "instrument");
         }
 
-        else if (obj.name == "easy" || obj.name == "normal" || obj.name == "hard")
+        else if (obj.name == "easy" && levelRock[0] || obj.name == "normal" && levelRock[1] || obj.name == "hard" && levelRock[2])
         {
             Change(obj, "mode");
         }

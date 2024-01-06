@@ -115,8 +115,4 @@ public class GameUI : MonoBehaviour
         GameManager.instance.GetSetPause = false;
         UnPauseEvent.Invoke();
     }
-
-
-
-
 }
