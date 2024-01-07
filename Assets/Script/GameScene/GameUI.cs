@@ -21,6 +21,8 @@ public class GameUI : MonoBehaviour
     [SerializeField] UnityEvent PauseEvent;
     [SerializeField] UnityEvent UnPauseEvent;
 
+    [SerializeField] private Sprite[] instrumentSprite;
+
     Color color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 1f);
     private void Awake()
     {
@@ -34,6 +36,25 @@ public class GameUI : MonoBehaviour
         Panel.SetActive(false);
         PauseCanvas.SetActive(false);
         countGroup.SetActive(false);
+    }
+
+    void Start()
+    {
+        if (GameManager.instance.GetSetInstrument == "tuke")
+        {
+            GameObject.Find("Instrument").GetComponent<Image>().sprite = instrumentSprite[0];
+        }
+        else if (GameManager.instance.GetSetInstrument == "ookan")
+        {
+            GameObject.Find("Instrument").GetComponent<Image>().sprite = instrumentSprite[1];
+        }
+        else if (GameManager.instance.GetSetInstrument == "kane")
+        {
+            GameObject.Find("Instrument").GetComponent<Image>().sprite = instrumentSprite[2];
+        }
+
+        GameObject.Find("Instrument").GetComponent<Image>().SetNativeSize();
+
     }
 
 

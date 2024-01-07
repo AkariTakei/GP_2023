@@ -31,7 +31,7 @@ public class Judge : MonoBehaviour
         combo = 0;
 
         gameUI = GameObject.Find("GameUI").GetComponent<GameUI>();
-        animator = GameObject.Find("taiko").GetComponent<Animator>();
+        animator = GameObject.Find("Instrument").GetComponent<Animator>();
 
         localRightPos = GameObject.Find("right").transform.position;
         localLeftPos = GameObject.Find("left").transform.position;
@@ -98,6 +98,7 @@ public class Judge : MonoBehaviour
             message(0, num);
             deleteData();
             deleteNotesObj();
+            combo++;
         }
 
         else
@@ -108,10 +109,9 @@ public class Judge : MonoBehaviour
                 message(1, num);
                 deleteData();
                 deleteNotesObj();
+                combo++;
             }
         }
-
-        combo++;
         gameUI.SetText(combo);
     }
 

@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] bool Start;
     float startTime;
     [SerializeField] string songName;
-    string instrument;
+    [SerializeField] string instrument;
     string mode;
 
     bool isPause = false;

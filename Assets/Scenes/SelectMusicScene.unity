@@ -2577,7 +2577,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4657371987386773636, guid: 03809f24ce4684d5da295a92b2b7cb6c, type: 3}
       propertyPath: noteSpeed
-      value: 3
+      value: 2.3
       objectReference: {fileID: 0}
     - target: {fileID: 4657371987386773637, guid: 03809f24ce4684d5da295a92b2b7cb6c, type: 3}
       propertyPath: m_RootOrder

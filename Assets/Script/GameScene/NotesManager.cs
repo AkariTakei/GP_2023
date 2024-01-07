@@ -40,9 +40,19 @@ public class NotesManager : MonoBehaviour
 
     [SerializeField] GameObject rightJudge;
     [SerializeField] GameObject leftJudge;
+
+    [SerializeField] GameObject[] ninnbaNotes; // 小太鼓用譜面
+    [SerializeField] GameObject[] ninnba2Notes; //　大太鼓用譜面
+    [SerializeField] GameObject[] ninnba3Notes; // 鉦すり用譜面
     [SerializeField] GameObject[] yataiNotes;
+    [SerializeField] GameObject[] yatai2Notes;
+    [SerializeField] GameObject[] yatai3Notes;
     [SerializeField] GameObject[] nakanokiriNotes;
+    [SerializeField] GameObject[] nakanokiri2Notes;
+    [SerializeField] GameObject[] nakanokiri3Notes;
     [SerializeField] GameObject[] tihyaitoroNotes;
+    [SerializeField] GameObject[] tihyaitoro2Notes;
+    [SerializeField] GameObject[] tihyaitoro3Notes;
     Vector2 localRightPos;
     Vector2 localLeftPos;
 
@@ -55,19 +65,133 @@ public class NotesManager : MonoBehaviour
             songName = GameManager.instance.GetSetSongName;
             localRightPos = rightJudge.transform.position;
             localLeftPos = leftJudge.transform.position;
-            if (songName == "yatai")
+
+            if (GameManager.instance.GetSetInstrument == "tuke")
             {
-                Load(songName, yataiNotes);
-            }
-            else if (songName == "nakanokiri")
-            {
-                Load(songName, nakanokiriNotes);
+                switch (songName)
+                {
+                    case "ninnba":
+                        Load(songName, ninnbaNotes);
+                        break;
+                    case "yatai":
+                        Load(songName, yataiNotes);
+                        break;
+                    case "nakanokiri":
+                        Load(songName, nakanokiriNotes);
+                        break;
+                    case "ti-hyaitoro":
+                        Load(songName, tihyaitoroNotes);
+                        break;
+                }
             }
 
-            else if (songName == "ti-hyaitoro")
+            else if (GameManager.instance.GetSetInstrument == "ookan")
             {
-                Load(songName, tihyaitoroNotes);
+                switch (songName)
+                {
+                    case "ninnba":
+                        Load(songName + "2", ninnba2Notes);
+                        break;
+                    case "yatai":
+                        Load(songName + "2", yatai2Notes);
+                        break;
+                    case "nakanokiri":
+                        Load(songName + "2", nakanokiri2Notes);
+                        break;
+                    case "ti-hyaitoro":
+                        Load(songName + "2", tihyaitoro2Notes);
+                        break;
+                }
             }
+
+            else if (GameManager.instance.GetSetInstrument == "kane")
+            {
+                switch (songName)
+                {
+                    case "ninnba":
+                        Load(songName + "3", ninnba3Notes);
+                        break;
+                    case "yatai":
+                        Load(songName + "3", yatai3Notes);
+                        break;
+                    case "nakanokiri":
+                        Load(songName + "3", nakanokiri3Notes);
+                        break;
+                    case "ti-hyaitoro":
+                        Load(songName + "3", tihyaitoro3Notes);
+                        break;
+                }
+            }
+
+            // if (songName == "ninnba")
+            // {
+            //     if (GameManager.instance.GetSetInstrument == "tuke")
+            //     {
+            //         Load(songName, ninnbaNotes);
+            //     }
+
+            //     else if (GameManager.instance.GetSetInstrument == "ookan")
+            //     {
+            //         Load(songName + "2", ninnba2Notes);
+            //     }
+
+            //     else if (GameManager.instance.GetSetInstrument == "kane")
+            //     {
+            //         Load(songName + "3", ninnba3Notes);
+            //     }
+            // }
+            // if (songName == "yatai")
+            // {
+            //     if (GameManager.instance.GetSetInstrument == "tuke")
+            //     {
+            //         Load(songName, yataiNotes);
+            //     }
+
+            //     else if (GameManager.instance.GetSetInstrument == "ookan")
+            //     {
+            //         Load(songName + "2", yatai2Notes);
+            //     }
+
+            //     else if (GameManager.instance.GetSetInstrument == "kane")
+            //     {
+            //         Load(songName + "3", yatai3Notes);
+            //     }
+            // }
+            // else if (songName == "nakanokiri")
+            // {
+            //     if (GameManager.instance.GetSetInstrument == "tuke")
+            //     {
+            //         Load(songName, nakanokiriNotes);
+            //     }
+
+            //     else if (GameManager.instance.GetSetInstrument == "ookan")
+            //     {
+            //         Load(songName + "2", nakanokiri2Notes);
+            //     }
+
+            //     else if (GameManager.instance.GetSetInstrument == "kane")
+            //     {
+            //         Load(songName + "3", nakanokiri3Notes);
+            //     }
+            // }
+
+            // else if (songName == "ti-hyaitoro")
+            // {
+            //     if (GameManager.instance.GetSetInstrument == "tuke")
+            //     {
+            //         Load(songName, tihyaitoroNotes);
+            //     }
+
+            //     else if (GameManager.instance.GetSetInstrument == "ookan")
+            //     {
+            //         Load(songName + "2", tihyaitoro2Notes);
+            //     }
+
+            //     else if (GameManager.instance.GetSetInstrument == "kane")
+            //     {
+            //         Load(songName + "3", tihyaitoro3Notes);
+            //     }
+            // }
 
 
         }
