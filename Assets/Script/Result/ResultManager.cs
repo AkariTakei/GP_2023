@@ -95,7 +95,7 @@ public class ResultManager : MonoBehaviour
     {
         if (name == "reStart")
         {
-            SceneManager.LoadScene("GameScene2");
+            SceneManager.LoadScene("GameScene");
         }
 
         else if (name == "next")

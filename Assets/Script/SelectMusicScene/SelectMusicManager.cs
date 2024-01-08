@@ -32,7 +32,7 @@ public class SelectMusicManager : MonoBehaviour
 
     void ChangeScene()
     {
-        SceneManager.LoadScene("GameScene2");
+        SceneManager.LoadScene("GameScene");
     }
 
     //プロパティ
