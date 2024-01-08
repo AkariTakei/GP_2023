@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Judge : MonoBehaviour
 {
+    //判定を行うクラス
+
     [SerializeField] private GameObject[] judgeObj = new GameObject[3]; //判定オブジェクト
     [SerializeField] NotesManager notesManager;
     GameUI gameUI;
@@ -17,8 +19,8 @@ public class Judge : MonoBehaviour
     private int maxCombo;
     private int combo;
 
-    Vector2 localRightPos;
-    Vector2 localLeftPos;
+    Vector2 localRightPos; //右の判定枠の座標
+    Vector2 localLeftPos; //左の判定枠の座標
 
     void Start()
     {
@@ -72,6 +74,7 @@ public class Judge : MonoBehaviour
                 return;
             }
 
+            //不可判定
             if ((Time.time - GameManager.instance.GetPauseTime) - GameManager.instance.GetSetStartTime > notesManager.NotesTime[0] + 0.1f)
             {
                 message(2, notesManager.LaneNum[0]);
@@ -92,7 +95,7 @@ public class Judge : MonoBehaviour
 
     void Judgement(float timeLag, int num)
     {
-        if (timeLag <= 0.05) //誤差が0.05秒以下
+        if (timeLag <= 0.05) //誤差が0.05秒以下なら良判定
         {
             judge[0]++;
             message(0, num);
@@ -103,7 +106,7 @@ public class Judge : MonoBehaviour
 
         else
         {
-            if (timeLag <= 0.1)
+            if (timeLag <= 0.1) //誤差が0.1秒以下なら可判定
             {
                 judge[1]++;
                 message(1, num);
@@ -144,7 +147,7 @@ public class Judge : MonoBehaviour
 
     void message(int judge, int num)
     {
-        //Instantiate(judgeObj[judge], new Vector2(0, -notesManager.LaneNum[0] * 2f + 2f), Quaternion.identity);
+        //判定オブジェクトを生成
         if (num == 0)
         {
             Instantiate(judgeObj[judge], new Vector2(localRightPos.x + 1, localRightPos.y), Quaternion.identity);
@@ -173,9 +176,12 @@ public class Judge : MonoBehaviour
         }
     }
 
-    public void RightTouch()
+
+    //以下はスマホ用のバイブレーションの処理(PC版ではコメントアウト)
+
+    /*public void RightTouch()
     {
-        VibrationMng.ShortVibration(); //スマホのバイブレーションを鳴らす(PCの場合はコメントアウト)
+        VibrationMng.ShortVibration(); 
         animator.SetTrigger("Down");
         if (notesManager.LaneNum[0] == 0)
         {
@@ -187,7 +193,7 @@ public class Judge : MonoBehaviour
 
     public void LeftTouch()
     {
-        VibrationMng.ShortVibration();    //スマホのバイブレーションを鳴らす(PCの場合はコメントアウト)
+        VibrationMng.ShortVibration();  
         animator.SetTrigger("Down");
         if (notesManager.LaneNum[0] == 1)
         {
@@ -197,5 +203,6 @@ public class Judge : MonoBehaviour
         }
 
     }
+    */
 
 }

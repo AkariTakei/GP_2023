@@ -24,6 +24,8 @@ public class Note
 
 public class NotesManager : MonoBehaviour
 {
+    //ノーツの生成を管理するクラス
+
     public int noteNum; //総ノーツ数
     private string songName; //曲名
 
@@ -66,6 +68,8 @@ public class NotesManager : MonoBehaviour
             localRightPos = rightJudge.transform.position;
             localLeftPos = leftJudge.transform.position;
 
+
+            //選んだ曲に対応する譜面を読み込む
             if (GameManager.instance.GetSetInstrument == "tuke")
             {
                 switch (songName)
@@ -123,83 +127,14 @@ public class NotesManager : MonoBehaviour
                 }
             }
 
-            // if (songName == "ninnba")
-            // {
-            //     if (GameManager.instance.GetSetInstrument == "tuke")
-            //     {
-            //         Load(songName, ninnbaNotes);
-            //     }
-
-            //     else if (GameManager.instance.GetSetInstrument == "ookan")
-            //     {
-            //         Load(songName + "2", ninnba2Notes);
-            //     }
-
-            //     else if (GameManager.instance.GetSetInstrument == "kane")
-            //     {
-            //         Load(songName + "3", ninnba3Notes);
-            //     }
-            // }
-            // if (songName == "yatai")
-            // {
-            //     if (GameManager.instance.GetSetInstrument == "tuke")
-            //     {
-            //         Load(songName, yataiNotes);
-            //     }
-
-            //     else if (GameManager.instance.GetSetInstrument == "ookan")
-            //     {
-            //         Load(songName + "2", yatai2Notes);
-            //     }
-
-            //     else if (GameManager.instance.GetSetInstrument == "kane")
-            //     {
-            //         Load(songName + "3", yatai3Notes);
-            //     }
-            // }
-            // else if (songName == "nakanokiri")
-            // {
-            //     if (GameManager.instance.GetSetInstrument == "tuke")
-            //     {
-            //         Load(songName, nakanokiriNotes);
-            //     }
-
-            //     else if (GameManager.instance.GetSetInstrument == "ookan")
-            //     {
-            //         Load(songName + "2", nakanokiri2Notes);
-            //     }
-
-            //     else if (GameManager.instance.GetSetInstrument == "kane")
-            //     {
-            //         Load(songName + "3", nakanokiri3Notes);
-            //     }
-            // }
-
-            // else if (songName == "ti-hyaitoro")
-            // {
-            //     if (GameManager.instance.GetSetInstrument == "tuke")
-            //     {
-            //         Load(songName, tihyaitoroNotes);
-            //     }
-
-            //     else if (GameManager.instance.GetSetInstrument == "ookan")
-            //     {
-            //         Load(songName + "2", tihyaitoro2Notes);
-            //     }
-
-            //     else if (GameManager.instance.GetSetInstrument == "kane")
-            //     {
-            //         Load(songName + "3", tihyaitoro3Notes);
-            //     }
-            // }
-
-
         }
     }
 
 
     private void Load(string SongName, GameObject[] songNotes)
     {
+        //ノーツ情報を読み込み、ノーツを生成する
+
         string inputString = Resources.Load<TextAsset>(SongName).ToString();
         Data inputJson = JsonUtility.FromJson<Data>(inputString); //デシリアル化
 
@@ -208,7 +143,6 @@ public class NotesManager : MonoBehaviour
 
         for (int i = 0; i < inputJson.notes.Length; i++)
         {
-            Debug.Log(inputJson.offset);
             float kankaku = 60 / (inputJson.BPM * (float)inputJson.notes[i].LPB); //1拍の間隔
             float beatSec = kankaku * (float)inputJson.notes[i].LPB; //1拍の秒数
             float time = (beatSec * inputJson.notes[i].num / (float)inputJson.notes[i].LPB) + inputJson.offset * 0.00001f; //ノーツが判定線と重なる時間
@@ -220,13 +154,13 @@ public class NotesManager : MonoBehaviour
             {
                 preLaneNum = inputJson.notes[i].block;
             }
-            if (inputJson.notes[i].block == 0)
+            if (inputJson.notes[i].block == 0) //右手で叩くノーツ
             {
                 NotesObj.Add(Instantiate(songNotes[i], new Vector2(localRightPos.x, y + localRightPos.y), Quaternion.identity));
                 NotesObj[i].transform.SetParent(rightJudge.transform, true);
                 NotesObj[i].transform.localScale = new Vector2(0.5f, 0.5f);
             }
-            else if (inputJson.notes[i].block == 1)
+            else if (inputJson.notes[i].block == 1) //左手で叩くノーツ
             {
                 NotesObj.Add(Instantiate(songNotes[i], new Vector2(localLeftPos.x, y + localLeftPos.y), Quaternion.identity));
                 NotesObj[i].transform.SetParent(leftJudge.transform, true);
@@ -235,6 +169,7 @@ public class NotesManager : MonoBehaviour
 
             else
             {
+                //叩かないノーツは視線の移動を増やさないよう一つ前に生成されたノーツの位置に生成する
                 if (preLaneNum == 0)
                 {
                     NotesObj.Add(Instantiate(songNotes[i], new Vector2(localRightPos.x, y + localRightPos.y), Quaternion.identity));
@@ -243,16 +178,12 @@ public class NotesManager : MonoBehaviour
                 {
                     NotesObj.Add(Instantiate(songNotes[i], new Vector2(localLeftPos.x, y + localLeftPos.y), Quaternion.identity));
                 }
-                // NotesObj.Add(Instantiate(songNotes[i], new Vector2((localRightPos.x + localLeftPos.x) / 2, y + localRightPos.y), Quaternion.identity));
                 NotesObj[i].transform.SetParent(leftJudge.transform, true);
                 NotesObj[i].transform.localScale = new Vector2(0.6f, 0.6f);
-                //非表示にする
-                //NotesObj[i].SetActive(false);
             }
 
 
         }
-        Debug.Log(songName);
     }
 
 

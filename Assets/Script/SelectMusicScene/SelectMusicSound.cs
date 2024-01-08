@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SelectMusicSound : MonoBehaviour
 {
+    // 選曲画面の音を管理するクラス
     AudioSource bgmAuidoSource;
 
     [SerializeField] float bgmVolume = 1.0f;

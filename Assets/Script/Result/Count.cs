@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Count : MonoBehaviour
 {
+    //カウントアップを行うクラス
 
     private int m_Mode = 0;             // 0:動作していない 1:値を増加させる(動作中)
     private float m_Value = 0.0f;       // 現在値
     private float m_Start = 0.0f;       // 開始値
     private float m_Goal = 0.0f;        // 最終目的値
-    private decimal m_PerTime = 0.0m;   // 値が"1"(または-1)変化するのに必要な時間
+    private decimal m_PerTime = 0.0m;   // 値が"1"変化するのに必要な時間
     private decimal m_Time = 0.0m;      // 経過時間
 
     GameObject resultUI;
@@ -43,10 +44,10 @@ public class Count : MonoBehaviour
             {
                 // 終了
                 m_Mode = 0;
-                resultUI.GetComponent<IListenFinishable>().OnFinish(this.gameObject.name);
+                resultUI.GetComponent<IListenFinishable>().OnFinish(this.gameObject.name); // カウントアップが終了したことを通知する
                 return;
             }
-            m_Value = (float)((decimal)m_Start + m_Time / m_PerTime);   // ※１ 割る数(m_PerTime)が0だと例外発生するので注意
+            m_Value = (float)((decimal)m_Start + m_Time / m_PerTime);   // ※１ 割る数(m_PerTime)が0だと例外発生する
         }
         // 動作していないとき
         else
@@ -88,7 +89,7 @@ public class Count : MonoBehaviour
         else
         {
             m_Mode = 0;
-            resultUI.GetComponent<IListenFinishable>().OnFinish(this.gameObject.name);
+            resultUI.GetComponent<IListenFinishable>().OnFinish(this.gameObject.name); //もし開始値と目標値が同じなら終了を通知する
             return;
         }
         m_PerTime = (decimal)(goal - start) / (decimal)time;// 1.0秒毎の変化量
@@ -111,7 +112,6 @@ public class Count : MonoBehaviour
 
     public bool IsWorking()
     {
-        Debug.Log(this.name + m_Mode);
         return (m_Mode == 0) ? false : true;
     }
 

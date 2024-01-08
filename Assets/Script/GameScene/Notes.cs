@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Notes : MonoBehaviour
 {
+    //ノーツを動かすクラス
+
     float NoteSpeed;
     bool isPlay = false;
 
@@ -18,7 +20,6 @@ public class Notes : MonoBehaviour
             if (isPlay == false)
             {
                 isPlay = true;
-                Debug.Log("ノーツが動き始める時間 = " + Time.time);
             }
             transform.position -= transform.up * Time.deltaTime * NoteSpeed;
         }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    //ゲーム全体を管理するクラス
     public static GameManager instance = null;
     public float noteSpeed;
     [SerializeField] bool Start;
@@ -14,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     bool isPause = false;
 
-    float pauseTime;
+    float pauseTime; //ポーズした時間を格納
 
     void Awake()
     {
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour
     {
         if (isPause == true)
         {
+            //ポーズ中は時間をカウントする
             pauseTime += Time.deltaTime;
         }
 

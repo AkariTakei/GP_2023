@@ -6,6 +6,7 @@ using UnityEngine.Events;
 
 public class SelectMusicManager : MonoBehaviour
 {
+    //選曲画面のUIを管理するクラス
     [SerializeField] private string musicTitle;
 
     [SerializeField] private string instrument;
@@ -35,7 +36,6 @@ public class SelectMusicManager : MonoBehaviour
         SceneManager.LoadScene("GameScene");
     }
 
-    //プロパティ
 
     public string GetSetMusicTitle
     {

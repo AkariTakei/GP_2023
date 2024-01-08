@@ -10,6 +10,8 @@ using UnityEngine.SceneManagement;
 
 public class GameUI : MonoBehaviour
 {
+    //ゲーム中のUIを管理するクラス
+
     private GameObject comboText;
     private GameObject comboObj;
     private GameObject Panel;
@@ -40,6 +42,7 @@ public class GameUI : MonoBehaviour
 
     void Start()
     {
+        //選択した楽器によって画像を変更
         if (GameManager.instance.GetSetInstrument == "tuke")
         {
             GameObject.Find("Instrument").GetComponent<Image>().sprite = instrumentSprite[0];
@@ -61,6 +64,7 @@ public class GameUI : MonoBehaviour
 
     public void SetText(int combo)
     {
+        //10コンボ以上の時のみ表示
         if (combo < 10)
         {
             comboText.SetActive(false);
@@ -114,7 +118,7 @@ public class GameUI : MonoBehaviour
         Panel.SetActive(true);
         PauseCanvas.SetActive(true);
         GameManager.instance.GetSetPause = true;
-        PauseEvent.Invoke();
+        PauseEvent.Invoke(); //MusicManagerのPauseメソッドを呼ぶ
     }
 
     async void UnPause()
@@ -134,6 +138,6 @@ public class GameUI : MonoBehaviour
         }
         countGroup.SetActive(false);
         GameManager.instance.GetSetPause = false;
-        UnPauseEvent.Invoke();
+        UnPauseEvent.Invoke(); //MusicManagerのUnPauseメソッドを呼ぶ
     }
 }

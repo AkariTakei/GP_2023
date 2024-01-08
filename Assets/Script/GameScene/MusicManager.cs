@@ -7,6 +7,8 @@ using Cysharp.Threading.Tasks;
 
 public class MusicManager : MonoBehaviour
 {
+    //音楽の再生を管理するクラス
+
     AudioSource songAudio;
     AudioClip Music;
     string songName;
@@ -25,12 +27,8 @@ public class MusicManager : MonoBehaviour
         if (!GameManager.instance.GetSetStart)
         {
             GameManager.instance.GetSetStart = true;
-            GameManager.instance.GetSetStartTime = Time.time;
-            Debug.Log(Time.time);
-            Debug.Log("音楽が再生を始める時間 = " + GameManager.instance.GetSetStartTime);
+            GameManager.instance.GetSetStartTime = Time.time; //開始時間を記録
             songAudio.PlayOneShot(Music);
-            Debug.Log("音楽が再生されました。");
-
         }
 
 
@@ -40,9 +38,8 @@ public class MusicManager : MonoBehaviour
     {
         if (GameManager.instance.GetSetStart && !songAudio.isPlaying && !GameManager.instance.GetSetPause)
         {
-            Debug.Log("音楽が終了しました。");
             GameManager.instance.GetSetStart = false;
-            SceneManager.sceneLoaded += KeepScore;
+            SceneManager.sceneLoaded += KeepScore; //シーン遷移時にスコアを保持
             SceneManager.LoadScene("ResultScene");
         }
     }

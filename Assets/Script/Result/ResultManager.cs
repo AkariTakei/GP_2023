@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class ResultManager : MonoBehaviour
 {
+    //リザルト画面の管理をするクラス
     ResultUI resultUI;
     private string songName;
 
@@ -33,6 +34,7 @@ public class ResultManager : MonoBehaviour
 
 
         SaveDataManager.SaveData data = SaveDataManager.Load();
+
         for (int i = 0; i < data.songData.Length; i++)
         {
             if (data.songData[i].songName == GameManager.instance.GetSetSongName)

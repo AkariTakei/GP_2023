@@ -8,8 +8,8 @@ using DG.Tweening;
 public class MagnetMenu : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 
 {
+    //曲スクロール部分の動きを制御するクラス
     SelectMusicManager selectMusicManager;
-    //SelectMusicUI selectMusicUI;
     // 吸いつく位置の中心座標
     [SerializeField] private Vector2 magnetPosition;
 
@@ -61,7 +61,6 @@ public class MagnetMenu : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     private void Start()
     {
         selectMusicManager = GameObject.Find("SelectMusic").GetComponent<SelectMusicManager>();
-        //selectMusicUI = this.GetComponent<SelectMusicUI>();
         // 初期表示したときに中央に表示する値を設定
         float centerPosX = this.magnetPosition.x;
         centerPosX -= this.itemDistance * this.centerElemIndex;
@@ -79,8 +78,6 @@ public class MagnetMenu : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
         updateItemsScale();
         ResetPos();
-        //selectMusicUI.ChangeText(selectItem.transform.GetChild(0).gameObject);
-
 
     }
 
@@ -182,9 +179,8 @@ public class MagnetMenu : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         }
         selectItem = nearestRect.gameObject;
         selectMusicManager.GetSetMusicTitle = selectItem.transform.GetChild(0).name;
-        //selectMusicUI.ChangeText(selectItem.transform.GetChild(0).gameObject);
 
-        VibrationMng.ShortVibration(); //スマホのバイブレーションを鳴らす(PCの場合はコメントアウト)
+        // VibrationMng.ShortVibration(); //スマホのバイブレーションを鳴らす(PCの場合はコメントアウト)
         return nearestRect;
     }
 
@@ -286,7 +282,7 @@ public class MagnetMenu : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
 public static class List_Tween_Extension
 {
-    // リスト内のすべてのアニメーションを停止します
+    // リスト内のすべてのアニメーションを停止する
     public static void KillAllAndClear(this List<Tween> self)
     {
         self.ForEach(tween => tween.Kill());

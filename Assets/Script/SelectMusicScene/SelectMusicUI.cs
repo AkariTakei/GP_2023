@@ -9,6 +9,7 @@ using TMPro;
 
 public class SelectMusicUI : MonoBehaviour
 {
+    //選曲画面のUIを管理するクラス
     [SerializeField] private GameObject selectInstrument;
     [SerializeField] private GameObject selectMode;
     [SerializeField] private GameObject startButton;
@@ -53,14 +54,16 @@ public class SelectMusicUI : MonoBehaviour
     private void CheckRock()
     {
         //それぞれの曲でeasyのtukeで一回以上フルコンボしているかどうか
+        //デバックモードの為今は全部解放
 
-        for (int i = 0; i < data.songData.Length; i++)
-        {
-            if (data.songData[i].instrumentData[0].levelData[0].fullComboNum < 1)
-            {
-                return;
-            }
-        }
+        // for (int i = 0; i < data.songData.Length; i++)
+        // {
+        //     if (data.songData[i].instrumentData[0].levelData[0].fullComboNum < 1)
+        //     {
+        //         return;
+        //     }
+        // }
+
         //フルコンボしている場合ookanを解放する
         instrumentRock[1] = true;
         GameObject.Find("ookan").transform.Find("Rock").gameObject.SetActive(false);
@@ -93,6 +96,7 @@ public class SelectMusicUI : MonoBehaviour
 
     public void ChangeText()
     {
+        //選択中の曲・楽器に合わせてテキストを変更する
         if (data == null)
         {
             return;
@@ -173,7 +177,6 @@ public class SelectMusicUI : MonoBehaviour
         Color inputColor = new Color(79 / 255f, 79 / 255f, 79 / 255f, 1f);
         //0.5秒かけてマテリアルのシェーダーのtintを変える
         startButton.GetComponent<Image>().material.DOColor(inputColor, 0.1f).AsyncWaitForCompletion();
-        //startButton.GetComponent<Image>().material.SetColor("_Color", inputColor);
         //0.5秒かけてボタンを縮小しながらマテリアルの色を変える
         startButton.transform.DOScale(0.48f, 0.1f).SetEase(Ease.OutQuart).AsyncWaitForCompletion();
     }

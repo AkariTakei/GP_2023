@@ -10,6 +10,7 @@ using System;
 
 public class ResultUI : MonoBehaviour, IListenFinishable
 {
+    //リザルト画面のUIを管理するクラス
     [SerializeField] private GameObject greatObj;
     [SerializeField] private GameObject goodObj;
     [SerializeField] private GameObject badObj;
@@ -179,7 +180,6 @@ public class ResultUI : MonoBehaviour, IListenFinishable
 
         if (count.IsWorking())
         {
-            Debug.Log("アニメーション中");
             int value = (int)Mathf.Ceil(count.Value);
             text.text = value.ToString();
         }
