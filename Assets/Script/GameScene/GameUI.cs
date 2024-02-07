@@ -140,4 +140,20 @@ public class GameUI : MonoBehaviour
         GameManager.instance.GetSetPause = false;
         UnPauseEvent.Invoke(); //MusicManagerのUnPauseメソッドを呼ぶ
     }
+
+    public async void CountAnimation()
+    {
+        countGroup.SetActive(true);
+        TextMeshProUGUI countText = GameObject.Find("Count").GetComponent<TextMeshProUGUI>();
+        //3秒カウントダウン
+        for (int i = 3; i > 0; i--)
+        {
+            countText.text = i.ToString();
+            countGroup.GetComponent<CanvasGroup>().alpha = 1;
+            Debug.Log(i);
+            await UniTask.Delay(700);
+            await countGroup.GetComponent<CanvasGroup>().DOFade(0, 0.3f).AsyncWaitForCompletion();
+        }
+        countGroup.SetActive(false);
+    }
 }

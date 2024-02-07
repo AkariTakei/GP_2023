@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
+using TMPro;
+using UnityEngine.UI;
 
 public class Judge : MonoBehaviour
 {
@@ -22,6 +25,8 @@ public class Judge : MonoBehaviour
     Vector2 localRightPos; //右の判定枠の座標
     Vector2 localLeftPos; //左の判定枠の座標
 
+    int fumenNum = 0; //譜面の番号
+
     void Start()
     {
         for (int i = 0; i < 3; i++)
@@ -37,6 +42,7 @@ public class Judge : MonoBehaviour
 
         localRightPos = GameObject.Find("right").transform.position;
         localLeftPos = GameObject.Find("left").transform.position;
+        fumenNum = 0;
     }
 
     void Update()
@@ -67,7 +73,7 @@ public class Judge : MonoBehaviour
             }
 
             //判定に関係のないノーツは判定枠に入ったら削除
-            if ((Time.time - GameManager.instance.GetPauseTime) - GameManager.instance.GetSetStartTime > notesManager.NotesTime[0] && notesManager.LaneNum[0] == 2)
+            if (((Time.time - GameManager.instance.GetPauseTime) - GameManager.instance.GetSetStartTime > notesManager.NotesTime[0] && notesManager.LaneNum[0] == 2))
             {
                 deleteData();
                 deleteNotesObj();
@@ -75,7 +81,7 @@ public class Judge : MonoBehaviour
             }
 
             //不可判定
-            if ((Time.time - GameManager.instance.GetPauseTime) - GameManager.instance.GetSetStartTime > notesManager.NotesTime[0] + 0.1f)
+            if (((Time.time - GameManager.instance.GetPauseTime) - GameManager.instance.GetSetStartTime > notesManager.NotesTime[0] + 0.15f))
             {
                 message(2, notesManager.LaneNum[0]);
                 deleteData();
@@ -89,13 +95,34 @@ public class Judge : MonoBehaviour
                 combo = 0;
                 gameUI.SetText(combo);
             }
+
+            //譜面チェンジ
+            if (GameManager.instance.GetSetMode == "normal" && ((Time.time - GameManager.instance.GetPauseTime) - GameManager.instance.GetSetStartTime > notesManager.fumenChangeTime[0]) && notesManager.fumenChangeTime.Count > 0)
+            {
+                Debug.Log("譜面チェンジ");
+                //画像を変更
+                if (notesManager.fumenChangeTime.Count > 0)
+                {
+                    notesManager.ChangeFumen(fumenNum + 1);
+                    notesManager.fumenChangeTime.RemoveAt(0);
+                }
+                fumenNum++;
+            }
+
+            //スタートカウントダウン
+            if (GameManager.instance.GetSetMode == "normal" && ((Time.time - GameManager.instance.GetPauseTime) - GameManager.instance.GetSetStartTime > notesManager.startTime) && notesManager.startTime != 0)
+            {
+                gameUI.CountAnimation();
+                notesManager.startTime = 0;
+
+            }
         }
 
     }
 
     void Judgement(float timeLag, int num)
     {
-        if (timeLag <= 0.05) //誤差が0.05秒以下なら良判定
+        if (timeLag <= 0.08) //誤差が0.05秒以下なら良判定
         {
             judge[0]++;
             message(0, num);
@@ -106,7 +133,7 @@ public class Judge : MonoBehaviour
 
         else
         {
-            if (timeLag <= 0.1) //誤差が0.1秒以下なら可判定
+            if (timeLag <= 0.15) //誤差が0.1秒以下なら可判定
             {
                 judge[1]++;
                 message(1, num);
@@ -140,8 +167,11 @@ public class Judge : MonoBehaviour
 
     void deleteNotesObj()
     {
-        Destroy(notesManager.NotesObj[0]);
-        notesManager.NotesObj.RemoveAt(0);
+        if (GameManager.instance.GetSetMode == "easy")
+        {
+            Destroy(notesManager.NotesObj[0]);
+            notesManager.NotesObj.RemoveAt(0);
+        }
         deletedNotesNum++;
     }
 
@@ -179,30 +209,38 @@ public class Judge : MonoBehaviour
 
     //以下はスマホ用のバイブレーションの処理(PC版ではコメントアウト)
 
-    /*public void RightTouch()
+    public void RightTouch()
     {
-        VibrationMng.ShortVibration(); 
-        animator.SetTrigger("Down");
-        if (notesManager.LaneNum[0] == 0)
+        if (GameManager.instance.GetSetPause == false)
         {
-            Judgement(GetABS((Time.time - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0]), notesManager.LaneNum[0]); //どれぐらいずれているか
-            return;
+            VibrationMng.ShortVibration();
+            animator.SetTrigger("Down");
+            if (notesManager.LaneNum[0] == 0)
+            {
+                Judgement(GetABS((Time.time - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0]), notesManager.LaneNum[0]); //どれぐらいずれているか
+                return;
+            }
         }
 
     }
 
     public void LeftTouch()
     {
-        VibrationMng.ShortVibration();  
-        animator.SetTrigger("Down");
-        if (notesManager.LaneNum[0] == 1)
+        if (GameManager.instance.GetSetPause == false)
         {
-            Judgement(GetABS((Time.time - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0]), notesManager.LaneNum[0]);
-            return;
+            VibrationMng.ShortVibration();
+            animator.SetTrigger("Down");
+            if (notesManager.LaneNum[0] == 1)
+            {
+                Judgement(GetABS((Time.time - GameManager.instance.GetSetStartTime) - notesManager.NotesTime[0]), notesManager.LaneNum[0]);
+                return;
 
+            }
         }
 
     }
-    */
+
+
+
 
 }

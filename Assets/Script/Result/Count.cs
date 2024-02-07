@@ -14,6 +14,8 @@ public class Count : MonoBehaviour
     private decimal m_Time = 0.0m;      // 経過時間
 
     GameObject resultUI;
+    CountSE countSE;
+
 
     public float Value
     {
@@ -26,6 +28,7 @@ public class Count : MonoBehaviour
     void Start()
     {
         resultUI = GameObject.Find("ResultUI");
+        countSE = GetComponent<CountSE>();
         ResetVariable();
     }
 
@@ -45,6 +48,7 @@ public class Count : MonoBehaviour
                 // 終了
                 m_Mode = 0;
                 resultUI.GetComponent<IListenFinishable>().OnFinish(this.gameObject.name); // カウントアップが終了したことを通知する
+                countSE.StopCountSE();
                 return;
             }
             m_Value = (float)((decimal)m_Start + m_Time / m_PerTime);   // ※１ 割る数(m_PerTime)が0だと例外発生する
@@ -73,6 +77,8 @@ public class Count : MonoBehaviour
     // カウントアップ(またはダウン)を開始する
     public void CountToInt(int start, int goal, float time)
     {
+        countSE.PlayCountSE(start, goal, time);
+
         // 起動中ならば実行できないものとする
         if (IsWorking())
         {
@@ -90,6 +96,7 @@ public class Count : MonoBehaviour
         {
             m_Mode = 0;
             resultUI.GetComponent<IListenFinishable>().OnFinish(this.gameObject.name); //もし開始値と目標値が同じなら終了を通知する
+            countSE.StopCountSE();
             return;
         }
         m_PerTime = (decimal)(goal - start) / (decimal)time;// 1.0秒毎の変化量

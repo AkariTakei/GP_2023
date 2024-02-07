@@ -45,8 +45,8 @@ public class SelectMusicUI : MonoBehaviour
         instrumentRock[1] = false;
         instrumentRock[2] = false;
         levelRock[0] = true;
-        levelRock[1] = false;
-        levelRock[2] = false;
+        levelRock[1] = true;
+        levelRock[2] = true;
 
         CheckRock();
     }
@@ -54,19 +54,29 @@ public class SelectMusicUI : MonoBehaviour
     private void CheckRock()
     {
         //それぞれの曲でeasyのtukeで一回以上フルコンボしているかどうか
-        //デバックモードの為今は全部解放
+        //デバックモードで全部解放したい時はコメントアウト
 
-        // for (int i = 0; i < data.songData.Length; i++)
-        // {
-        //     if (data.songData[i].instrumentData[0].levelData[0].fullComboNum < 1)
-        //     {
-        //         return;
-        //     }
-        // }
+        for (int i = 0; i < data.songData.Length; i++)
+        {
+            if (data.songData[i].instrumentData[0].levelData[0].fullComboNum < 1)
+            {
+                return;
+            }
+        }
 
         //フルコンボしている場合ookanを解放する
         instrumentRock[1] = true;
         GameObject.Find("ookan").transform.Find("Rock").gameObject.SetActive(false);
+
+        if (levelRock[1] == true)
+        {
+            GameObject.Find("normal").transform.Find("Rock").gameObject.SetActive(false);
+        }
+
+        if (levelRock[2] == true)
+        {
+            GameObject.Find("hard").transform.Find("Rock").gameObject.SetActive(false);
+        }
 
     }
     public void OnClick(GameObject obj)

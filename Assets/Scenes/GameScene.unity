@@ -386,6 +386,7 @@ RectTransform:
   - {fileID: 1548797181}
   - {fileID: 1754125832}
   - {fileID: 6004816}
+  - {fileID: 1526628393}
   - {fileID: 1300315724}
   m_Father: {fileID: 0}
   m_RootOrder: 8
@@ -958,7 +959,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &844778368
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1465,8 +1466,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1140320853}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.6303215, y: 4.436179, z: -0.041498106}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.630321, y: 4.436179, z: -0.041498106}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1973,7 +1974,7 @@ RectTransform:
   m_Children:
   - {fileID: 1982017621}
   m_Father: {fileID: 231265067}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2443,6 +2444,82 @@ RectTransform:
   m_AnchoredPosition: {x: 230.51999, y: 843.536}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1526628392
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1526628393}
+  - component: {fileID: 1526628395}
+  - component: {fileID: 1526628394}
+  m_Layer: 5
+  m_Name: fumen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1526628393
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526628392}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 231265067}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 167}
+  m_SizeDelta: {x: 1797, y: 3097.8586}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1526628394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526628392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: be6639fe79ac344f8b073041169c1c7a, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1526628395
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526628392}
+  m_CullTransparentMesh: 1
 --- !u!1 &1548797180
 GameObject:
   m_ObjectHideFlags: 0
@@ -2680,7 +2757,9 @@ MonoBehaviour:
   LaneNum: 
   NoteType: 
   NotesTime: []
+  fumenChangeTime: []
   NotesObj: []
+  startTime: 0
   noteObj:
   - {fileID: 8631637528746608825, guid: b99ba39546d324dd9b839a727c58aed8, type: 3}
   - {fileID: 8631637528746608825, guid: 1964ee82bd3b449cb86edc99562bba43, type: 3}
@@ -2829,6 +2908,8 @@ MonoBehaviour:
   - {fileID: 6981219834084917317, guid: ae791009de0f84dde822e1b136f00aea, type: 3}
   - {fileID: 6981219834084917317, guid: ae791009de0f84dde822e1b136f00aea, type: 3}
   ninnba3Notes: []
+  ninnba_nomal:
+  - {fileID: 21300000, guid: d801dc36da3994e679ca0e802516e30b, type: 3}
   yataiNotes:
   - {fileID: 6981219834084917317, guid: faf72303b550f43feba8d484a4cc10d6, type: 3}
   - {fileID: 1211911728913462791, guid: 251883b2e0ab043faae9a45e8dab8afb, type: 3}
@@ -3026,6 +3107,17 @@ MonoBehaviour:
   - {fileID: 6981219834084917317, guid: f4cd4d5ae298c420c94e088ae6f2c1c9, type: 3}
   - {fileID: 6981219834084917317, guid: f4cd4d5ae298c420c94e088ae6f2c1c9, type: 3}
   yatai3Notes: []
+  yatai_nomal:
+  - {fileID: 21300000, guid: ec988b8debfeb43e9b0d29fa321d5058, type: 3}
+  - {fileID: 21300000, guid: b6034e768e85549eaa7a0ea72e852061, type: 3}
+  - {fileID: 21300000, guid: 4c4a956e0d1494467be12c8d370cd0e9, type: 3}
+  - {fileID: 21300000, guid: 57db78d80f3fd428b9331fdfbe346c1c, type: 3}
+  - {fileID: 21300000, guid: 1a7354064bc32477793c5a0504e58153, type: 3}
+  - {fileID: 21300000, guid: ce1d298e99359404d99f0edbe127cd53, type: 3}
+  - {fileID: 21300000, guid: 231973ad46b0946488ed991519b9cc12, type: 3}
+  - {fileID: 21300000, guid: 3c19b1e80a00d4f6ca383c1e5cf98dc2, type: 3}
+  - {fileID: 21300000, guid: cac4eba2a488a4aaf8a58ee38cdc1178, type: 3}
+  - {fileID: 21300000, guid: d043cc6ee2f3f4cc09f6fdf28ca5fd0e, type: 3}
   nakanokiriNotes:
   - {fileID: 6981219834084917317, guid: faf72303b550f43feba8d484a4cc10d6, type: 3}
   - {fileID: 1211911728913462791, guid: 251883b2e0ab043faae9a45e8dab8afb, type: 3}
@@ -3219,6 +3311,18 @@ MonoBehaviour:
   - {fileID: 6981219834084917317, guid: f4cd4d5ae298c420c94e088ae6f2c1c9, type: 3}
   - {fileID: 6981219834084917317, guid: f4cd4d5ae298c420c94e088ae6f2c1c9, type: 3}
   nakanokiri3Notes: []
+  nakanokiri_nomal:
+  - {fileID: 21300000, guid: be6639fe79ac344f8b073041169c1c7a, type: 3}
+  - {fileID: 21300000, guid: ce58481cbba9645d88ff295f5b4e0ac3, type: 3}
+  - {fileID: 21300000, guid: 21ea0ebf751b148a984cd367947919d9, type: 3}
+  - {fileID: 21300000, guid: 7dd1652d9db0b4ef99d7645dea9100fa, type: 3}
+  - {fileID: 21300000, guid: b7b83657b4f604d9d9cead37a15bac4f, type: 3}
+  - {fileID: 21300000, guid: e7e5f71f28ccf458b8e5bdaa0e44aa7e, type: 3}
+  - {fileID: 21300000, guid: 2c382b20b55854b39bc2f2848973dcdf, type: 3}
+  - {fileID: 21300000, guid: 8e1d7dc2983da4a25b4e50bcd051d94f, type: 3}
+  - {fileID: 21300000, guid: e2a00d913f99c44529417a9ec33ed80f, type: 3}
+  - {fileID: 21300000, guid: 284636725c9de43e6aecc61e9f736374, type: 3}
+  - {fileID: 21300000, guid: bde151d15c1e04488b3f37b5360ad42f, type: 3}
   tihyaitoroNotes:
   - {fileID: 6981219834084917317, guid: faf72303b550f43feba8d484a4cc10d6, type: 3}
   - {fileID: 1211911728913462791, guid: 251883b2e0ab043faae9a45e8dab8afb, type: 3}
@@ -3441,7 +3545,25 @@ MonoBehaviour:
   - {fileID: 6981219834084917317, guid: f4cd4d5ae298c420c94e088ae6f2c1c9, type: 3}
   - {fileID: 6981219834084917317, guid: f4cd4d5ae298c420c94e088ae6f2c1c9, type: 3}
   - {fileID: 6981219834084917317, guid: f4cd4d5ae298c420c94e088ae6f2c1c9, type: 3}
-  tihyaitoro3Notes: []
+  tihyaitoro3Notes:
+  - {fileID: 0}
+  tihyaitoro_nomal:
+  - {fileID: 21300000, guid: a20f4d2060aac403ca530d989394ed1d, type: 3}
+  - {fileID: 21300000, guid: f97ada1ac6eff4c89ab905abcf35e6b4, type: 3}
+  - {fileID: 21300000, guid: 8410da5fbcf6a4518af3ec9a12fbf4e3, type: 3}
+  - {fileID: 21300000, guid: 0b55ff7700b324f76beeb5da77db26bb, type: 3}
+  - {fileID: 21300000, guid: d91608e83126545c9928e957898178c5, type: 3}
+  - {fileID: 21300000, guid: c4c15bffd149e4d72b8f3bf7fbf4fbb2, type: 3}
+  - {fileID: 21300000, guid: 14f3fcd5c2da94145959325a9b07cec7, type: 3}
+  - {fileID: 21300000, guid: d53e6d515bf5c43bebe2a331015d5225, type: 3}
+  - {fileID: 21300000, guid: f4a395875306740d89997b8fe83215bc, type: 3}
+  - {fileID: 21300000, guid: 1863c6900edfd4f8bb0de07a1ee9a92d, type: 3}
+  - {fileID: 21300000, guid: ea772d069bc284c2ab989ab5010dcd6f, type: 3}
+  - {fileID: 21300000, guid: 52ea6c1e8618745c3b02bfa72c39475e, type: 3}
+  - {fileID: 21300000, guid: fd558736fc2264302aad0fe176a59ec2, type: 3}
+  - {fileID: 21300000, guid: 6f118c82da22b4667b7ca2526359e4b3, type: 3}
+  - {fileID: 21300000, guid: f3df7bafc33344f79a5d04a105061c94, type: 3}
+  fumen: {fileID: 1526628392}
 --- !u!4 &1707493059
 Transform:
   m_ObjectHideFlags: 0
@@ -3474,7 +3596,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1748134645
 RectTransform:
   m_ObjectHideFlags: 0
